@@ -1,0 +1,24 @@
+site_name: Rust Web Programming
+
+theme:
+  name: material
+  locale: ja
+
+nav:
+  - 序文: index.md
+
+markdown_extensions:
+  - admonition
+  - fontawesome_markdown
+  - codehilite
+  - tables
+  - md_in_html
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+extra_css:
+    - "https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"

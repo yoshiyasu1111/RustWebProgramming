@@ -1,0 +1,14 @@
+services:
+
+  mkdocs:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    image: mkdocs
+    container_name: mkdocs
+    volumes:
+      - .:/docs
+    working_dir: /docs
+    tty: true
+    ports:
+      - 8080:8080
