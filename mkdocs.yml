@@ -3,9 +3,43 @@ site_name: Rust Web Programming
 theme:
   name: material
   locale: ja
+  font:
+    text: 'Noto Sans Japanese'
 
 nav:
   - 序文: index.md
+  - '1章 - Rust Web開発入門':
+    - '1 - Rust Web開発入門':               1_QuickIntroduction/index.md
+    - '1.1 - 技術要件':                     1_QuickIntroduction/TechnicalRequirements.md
+    - '1.2 - なぜRustは革命的なのか？':     1_QuickIntroduction/WhyIsRustRevolutionary.md
+  - '2章 - RustでWebアプリケーションをデザインする':
+    - '2 - RustでWebアプリケーションをデザインする':      2_DesigningYourWebApplicationInRust/index.md
+    - '2.1 - 技術要件':                                   2_DesigningYourWebApplicationInRust/TechnicalRequirements.md
+    - '2.2 - Cargoによるソフトウェアプロジェクトの管理':  2_DesigningYourWebApplicationInRust/ManagingASoftwareProjectWithCargo.md
+    - '2.3 - コードの構造化':                             2_DesigningYourWebApplicationInRust/StructuringCode.md
+    - '2.4 - 環境との相互作用':                           2_DesigningYourWebApplicationInRust/InteractingWithTheEnvironment.md
+    - '2.5 - まとめ':                                     2_DesigningYourWebApplicationInRust/Summary.md
+  - '3章 - HTTPリクエストの取り扱い':
+    - '3 - HTTPリクエストの取り扱い':                         3_HandlingHTTPRequests/index.md
+    - '3.1 - 技術要件':                                       3_HandlingHTTPRequests/TechnicalRequirements.md
+    - '3.2 - Actix Webフレームワークの紹介':                  3_HandlingHTTPRequests/IntroducingTheActixWebFramework.md
+    - '3.3 - 基本的なActix Webサーバーの立ち上げ':            3_HandlingHTTPRequests/LaunchingABasicActixWebServer.md
+    - '3.4 - クロージャを理解する':                           3_HandlingHTTPRequests/UnderstandingClosures.md
+    - '3.5 - 非同期プログラミングの理解':                     3_HandlingHTTPRequests/UnderstandingAsynchronousProgramming.md
+    - '3.6 - asyncとawaitを理解する':                         3_HandlingHTTPRequests/UnderstandingAsyncAndAwait.md
+    - '3.7 - Webプログラミングでasyncとawaitを探求する':      3_HandlingHTTPRequests/ExploringAsyncAndAwaitWithWebProgramming.md
+    - '3.8 - Actix Webフレームワークを使用したビューの管理':  3_HandlingHTTPRequests/ManagingViewsUsingTheActixWebFramework.md
+    - '3.9 - まとめ':                                         3_HandlingHTTPRequests/Summary.md
+    # - '3.10 - 質問':
+    # - '3.11 - 回答':
+  - '4章 - HTTPリクエストの処理':
+    - '4 - HTTPリクエストの処理':                           4_ProcessingHTTPRequests/index.md
+    - '4.1 - 技術要件':                                     4_ProcessingHTTPRequests/TechnicalRequirements.md
+    - '4.2 - コードを定着させるための初期設定について知る': 4_ProcessingHTTPRequests/GettingToKnowTheInitialSetupForFusingCode.md
+    - '4.3 - ビューにパラメータを渡す':                     4_ProcessingHTTPRequests/PassingParametersIntoViews.md
+    - '4.4 - JSONシリアライズのためのマクロの使用':         4_ProcessingHTTPRequests/UsingMacrosForJSONSerialization.md
+    - '4.5 - ビューからデータを抽出する':                   4_ProcessingHTTPRequests/ExtractingDataFromViews.md
+    - '4.6 - まとめ':                                       4_ProcessingHTTPRequests/Summary.md
 
 markdown_extensions:
   - admonition
