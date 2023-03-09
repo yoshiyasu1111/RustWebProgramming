@@ -40,6 +40,39 @@ nav:
     - '4.4 - JSONシリアライズのためのマクロの使用':         4_ProcessingHTTPRequests/UsingMacrosForJSONSerialization.md
     - '4.5 - ビューからデータを抽出する':                   4_ProcessingHTTPRequests/ExtractingDataFromViews.md
     - '4.6 - まとめ':                                       4_ProcessingHTTPRequests/Summary.md
+  - '5章 - ブラウザでコンテンツを表示する':
+    - '5 - ブラウザでコンテンツを表示する':                                   5_DisplayingContentInTheBrowser/index.md
+    - '5.1 - 技術要件':                                                       5_DisplayingContentInTheBrowser/TechnicalRequirements.md
+    - '5.2 - Rustを使ったHTML、CSS、JavaScriptのサービス提供':                5_DisplayingContentInTheBrowser/ServingHTMLCSSAndJavaScriptUsingRust.md
+    - '5.3 - HTMLにJavaScriptを注入する':                                     5_DisplayingContentInTheBrowser/InjectingJavaScriptIntoHTML.md
+    - '5.4 - HTMLにCSSを組み込む':                                            5_DisplayingContentInTheBrowser/InjectingCSSIntoHTML.md
+    - '5.5 - コンポーネントの継承':                                           5_DisplayingContentInTheBrowser/InheritingComponents.md
+    - '5.6 - Reactアプリを作成する':                                          5_DisplayingContentInTheBrowser/CreatingAReactApp.md
+    - '5.7 - ReactでAPIを呼び出す':                                           5_DisplayingContentInTheBrowser/MakingAPICallsInReact.md
+    - '5.8 - Reactのカスタムコンポーネントの作成':                            5_DisplayingContentInTheBrowser/CreatingCustomComponentsInReact.md
+    - '5.9 - CSSをReactに持ち込む':                                           5_DisplayingContentInTheBrowser/LiftingCSSIntoReact.md
+    - '5.10 - Reactアプリケーションをデスクトップアプリケーションへ変換する': 5_DisplayingContentInTheBrowser/ConvertingOurReactApplicationIntoADesktopApplication.md
+    - '5.11 - まとめ':                                                        5_DisplayingContentInTheBrowser/Summary.md
+  - '6章 - PostgreSQLによるデータ永続化':
+    - '6 - PostgreSQLによるデータ永続化':   6_DataPersistenceWithPostgreSQL/index.md
+    - '6.1 - 技術要件':                     6_DataPersistenceWithPostgreSQL/TechnicalRequirements.md
+    - '6.2 - PostgreSQLデータベースの構築': 6_DataPersistenceWithPostgreSQL/BuildingOurPostgreSQLDatabase.md
+    - '6.3 - DieselでPostgreSQLに接続する': 6_DataPersistenceWithPostgreSQL/ConnectingToPostgreSQLWithDiesel.md
+    - '6.4 - アプリをPostgreSQLに接続する': 6_DataPersistenceWithPostgreSQL/ConnectingOurAppToPostgreSQL.md
+    - '6.5 - データベースへの挿入':         6_DataPersistenceWithPostgreSQL/InsertingIntoTheDatabase.md
+    - '6.6 - アプリケーションを構成する':   6_DataPersistenceWithPostgreSQL/ConfiguringOurApplication.md
+    - '6.7 - データベース接続プールの構築': 6_DataPersistenceWithPostgreSQL/BuildingADatabaseConnectionPool.md
+    - '6.8 - まとめ':                       6_DataPersistenceWithPostgreSQL/Summary.md
+  - '7章 - ユーザーセッションの管理':
+    - '7 - ユーザーセッションの管理':           7_ManagingUserSessions/index.md
+    - '7.1 - 技術要件':                         7_ManagingUserSessions/TechnicalRequirements.md
+    - '7.2 - ユーザーモデルを作成する':         7_ManagingUserSessions/CreatingOurUserModel.md
+    - '7.3 - ユーザーを認証する':               7_ManagingUserSessions/AuthenticatingOurUsers.md
+    - '7.4 - ユーザーセッションの管理':         7_ManagingUserSessions/ManagingUserSessions.md
+    - '7.5 - 認証要件のクリーンアップ':         7_ManagingUserSessions/CleaningUpAuthenticationRequirements.md
+    - '7.6 - 認証トークンの有効期限を設定する': 7_ManagingUserSessions/ConfiguringExpirationOfAuthTokens.md
+    - '7.7 - フロントエンドに認証を追加する':   7_ManagingUserSessions/AddingAuthenticationIntoOurFrontend.md
+    - '7.8 - まとめ':                           7_ManagingUserSessions/Summary.md
 
 markdown_extensions:
   - admonition
