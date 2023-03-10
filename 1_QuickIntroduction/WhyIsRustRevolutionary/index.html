@@ -1,0 +1,1372 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../TechnicalRequirements/">
+      
+      
+        <link rel="next" href="../../2_DesigningYourWebApplicationInRust/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.0">
+    
+    
+      
+        <title>1.2 - なぜRustは革命的なのか？ - Rust Web Programming</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.402914a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+Japanese:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans Japanese";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rust" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Rust Web Programming" class="md-header__button md-logo" aria-label="Rust Web Programming" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Rust Web Programming
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1.2 - なぜRustは革命的なのか？
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Rust Web Programming" class="md-nav__button md-logo" aria-label="Rust Web Programming" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Rust Web Programming
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        序文
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          1章 - Rust Web開発入門
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          1章 - Rust Web開発入門
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        1 - Rust Web開発入門
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TechnicalRequirements/" class="md-nav__link">
+        1.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          1.2 - なぜRustは革命的なのか？
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        1.2 - なぜRustは革命的なのか？
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rust" class="md-nav__link">
+    なぜRustは革命的なのか？
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          2章 - RustでWebアプリケーションをデザインする
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          2章 - RustでWebアプリケーションをデザインする
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/" class="md-nav__link">
+        2 - RustでWebアプリケーションをデザインする
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/TechnicalRequirements/" class="md-nav__link">
+        2.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/ManagingASoftwareProjectWithCargo/" class="md-nav__link">
+        2.2 - Cargoによるソフトウェアプロジェクトの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/StructuringCode/" class="md-nav__link">
+        2.3 - コードの構造化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/InteractingWithTheEnvironment/" class="md-nav__link">
+        2.4 - 環境との相互作用
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/Summary/" class="md-nav__link">
+        2.5 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          3章 - HTTPリクエストの取り扱い
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          3章 - HTTPリクエストの取り扱い
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/" class="md-nav__link">
+        3 - HTTPリクエストの取り扱い
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/TechnicalRequirements/" class="md-nav__link">
+        3.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/IntroducingTheActixWebFramework/" class="md-nav__link">
+        3.2 - Actix Webフレームワークの紹介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/LaunchingABasicActixWebServer/" class="md-nav__link">
+        3.3 - 基本的なActix Webサーバーの立ち上げ
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/UnderstandingClosures/" class="md-nav__link">
+        3.4 - クロージャを理解する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/UnderstandingAsynchronousProgramming/" class="md-nav__link">
+        3.5 - 非同期プログラミングの理解
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/UnderstandingAsyncAndAwait/" class="md-nav__link">
+        3.6 - asyncとawaitを理解する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/ExploringAsyncAndAwaitWithWebProgramming/" class="md-nav__link">
+        3.7 - Webプログラミングでasyncとawaitを探求する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/ManagingViewsUsingTheActixWebFramework/" class="md-nav__link">
+        3.8 - Actix Webフレームワークを使用したビューの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/Summary/" class="md-nav__link">
+        3.9 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          4章 - HTTPリクエストの処理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          4章 - HTTPリクエストの処理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/" class="md-nav__link">
+        4 - HTTPリクエストの処理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/TechnicalRequirements/" class="md-nav__link">
+        4.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/GettingToKnowTheInitialSetupForFusingCode/" class="md-nav__link">
+        4.2 - コードを定着させるための初期設定について知る
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/PassingParametersIntoViews/" class="md-nav__link">
+        4.3 - ビューにパラメータを渡す
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/UsingMacrosForJSONSerialization/" class="md-nav__link">
+        4.4 - JSONシリアライズのためのマクロの使用
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/ExtractingDataFromViews/" class="md-nav__link">
+        4.5 - ビューからデータを抽出する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/Summary/" class="md-nav__link">
+        4.6 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          5章 - ブラウザでコンテンツを表示する
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          5章 - ブラウザでコンテンツを表示する
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/" class="md-nav__link">
+        5 - ブラウザでコンテンツを表示する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/TechnicalRequirements/" class="md-nav__link">
+        5.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/ServingHTMLCSSAndJavaScriptUsingRust/" class="md-nav__link">
+        5.2 - Rustを使ったHTML、CSS、JavaScriptのサービス提供
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/InjectingJavaScriptIntoHTML/" class="md-nav__link">
+        5.3 - HTMLにJavaScriptを注入する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/InjectingCSSIntoHTML/" class="md-nav__link">
+        5.4 - HTMLにCSSを組み込む
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/InheritingComponents/" class="md-nav__link">
+        5.5 - コンポーネントの継承
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/CreatingAReactApp/" class="md-nav__link">
+        5.6 - Reactアプリを作成する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/MakingAPICallsInReact/" class="md-nav__link">
+        5.7 - ReactでAPIを呼び出す
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/CreatingCustomComponentsInReact/" class="md-nav__link">
+        5.8 - Reactのカスタムコンポーネントの作成
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/LiftingCSSIntoReact/" class="md-nav__link">
+        5.9 - CSSをReactに持ち込む
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/ConvertingOurReactApplicationIntoADesktopApplication/" class="md-nav__link">
+        5.10 - Reactアプリケーションをデスクトップアプリケーションへ変換する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/Summary/" class="md-nav__link">
+        5.11 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          6章 - PostgreSQLによるデータ永続化
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          6章 - PostgreSQLによるデータ永続化
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/" class="md-nav__link">
+        6 - PostgreSQLによるデータ永続化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/TechnicalRequirements/" class="md-nav__link">
+        6.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/BuildingOurPostgreSQLDatabase/" class="md-nav__link">
+        6.2 - PostgreSQLデータベースの構築
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/ConnectingToPostgreSQLWithDiesel/" class="md-nav__link">
+        6.3 - DieselでPostgreSQLに接続する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/ConnectingOurAppToPostgreSQL/" class="md-nav__link">
+        6.4 - アプリをPostgreSQLに接続する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/InsertingIntoTheDatabase/" class="md-nav__link">
+        6.5 - データベースへの挿入
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/ConfiguringOurApplication/" class="md-nav__link">
+        6.6 - アプリケーションを構成する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/BuildingADatabaseConnectionPool/" class="md-nav__link">
+        6.7 - データベース接続プールの構築
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/Summary/" class="md-nav__link">
+        6.8 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          7章 - ユーザーセッションの管理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          7章 - ユーザーセッションの管理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/" class="md-nav__link">
+        7 - ユーザーセッションの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/TechnicalRequirements/" class="md-nav__link">
+        7.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/CreatingOurUserModel/" class="md-nav__link">
+        7.2 - ユーザーモデルを作成する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/AuthenticatingOurUsers/" class="md-nav__link">
+        7.3 - ユーザーを認証する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/ManagingUserSessions/" class="md-nav__link">
+        7.4 - ユーザーセッションの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/CleaningUpAuthenticationRequirements/" class="md-nav__link">
+        7.5 - 認証要件のクリーンアップ
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/ConfiguringExpirationOfAuthTokens/" class="md-nav__link">
+        7.6 - 認証トークンの有効期限を設定する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/AddingAuthenticationIntoOurFrontend/" class="md-nav__link">
+        7.7 - フロントエンドに認証を追加する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/Summary/" class="md-nav__link">
+        7.8 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rust" class="md-nav__link">
+    なぜRustは革命的なのか？
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>1.2 - なぜRustは革命的なのか？</h1>
+
+<h2 id="rust">なぜRustは革命的なのか？</h2>
+<p>プログラミングでは、通常、スピードとリソース、開発スピードと安全性の間でトレードオフが発生します。C/C++などの低レベル言語は、高速なコード実行と最小限のリソース消費で、開発者がコンピュータをきめ細かく制御することができます。しかし、これは自由ではありません。手作業によるメモリ管理は、バグやセキュリティの脆弱性をもたらす可能性があります。その簡単な例が、バッファオーバーフロー攻撃です。これは、プログラマーが十分なメモリを割り当てなかった場合に発生します。例えば、バッファのサイズが15バイトしかなく、20バイトが送信された場合、余分な5バイトが境界を越えて書き込まれる可能性があります。攻撃者は、バッファが処理できる以上のバイトを渡すことで、これを悪用することができます。この場合、実行可能なコードが格納されている領域を独自のコードで上書きしてしまう可能性があります。メモリが正しく管理されていないプログラムを悪用する方法は他にもあります。脆弱性の増加に加えて、低レベル言語で問題を解決するためには、より多くのコードと時間が必要です。このため、C++ウェブフレームワークはウェブ開発において大きなシェアを占めることはありません。その代わりに、Python、Ruby、JavaScriptなどの高水準言語を使用するのが一般的です。このような言語を使うことで、開発者は安全かつ迅速に問題を解決することができます。</p>
+<p>しかし、このメモリ安全性にはコストがかかることに注意しなければならない。これらの高級言語は一般に、定義されたすべての変数とそのメモリアドレスへの参照を記録しています。あるメモリ・アドレスを指す変数がなくなると、そのメモリ・アドレスのデータは削除される。このプロセスはガベージコレクションと呼ばれ、変数をクリーンアップするためにプログラムを停止しなければならないため、余分なリソースと時間を消費する。</p>
+<p>Rustでは、コストのかかるガベージコレクション処理を行うことなく、メモリ安全性を確保することができます。Rustは、コンパイル時にボローチェッカーでチェックされる一連の所有権ルールによってメモリ安全性を確保します。これらのルールは、次のセクションで言及するクセのあるものです。このため、Rustは、真にパフォーマンスの高いコードで迅速かつ安全に問題を解決することができ、速度と安全性のトレードオフを解消することができます。</p>
+<p>メモリの安全性</p>
+<p>メモリ安全性とは、プログラムが常に有効なメモリを指すメモリポインタを持つという性質です。</p>
+<p>より多くのデータ処理、トラフィック、複雑なタスクがウェブスタックに持ち込まれるようになり、ウェブフレームワークやライブラリの数が増えているRustは、今やウェブ開発の有力な選択肢となりました。このため、Rustのウェブ空間では、本当に驚くべき結果が得られています。2020年、Shimul Chowdhuryは、同じスペックで言語やフレームワークが異なるサーバに対して一連のテストを実施しました。その結果は、次の図に見ることができます。</p>
+<p>図1.1 - Shimul Chowdhuryによる異なるフレームワークと言語の結果 (found at https://www.shimul.dev/posts/06-04-2020-benchmarking-flask-falcon-actix-web-rocket-nestjs/)</p>
+<p>前図を見ると、言語やフレームワークのバリエーションがあることがわかります。しかし、RustフレームワークはActix WebとRocketで構成されていることに注目しなければなりません。これらのRustサーバーは、総リクエスト処理量やデータ転送量において、まったく別格の存在です。Golangなど他の言語も登場しましたが、Rustにはガベージコレクションがないため、Golangを凌駕することができました。これは、Jesse Howarth氏のブログ記事「Why Discord is switching from Go to Rust」で実証されており、以下のグラフが掲載されています。</p>
+<p>図1.2 - Discordの所見⇒Golangはスパイキー、Rustはスムース（https://discord.com/blog/why-discord-is-switching-from-go-to-rust で発見。）</p>
+<p>Golangがメモリの安全性を保つために実装していたガベージコレクションは、2分間のスパイクをもたらす結果となりました。これは、すべてにRustを使うべきだと言っているわけではありません。仕事に適した道具を使うのがベストプラクティスです。これらの言語には、それぞれ異なる利点があります。先ほどの図は、Rustの良さを表示したに過ぎません。</p>
+<p>ガベージコレクションが必要ないのは、Rustがボローチェッカーを使った強制ルールでメモリの安全性を確保しているからです。さて、なぜRustでコーディングしたいのかを理解したところで、次節ではデータ型の見直しに移ります。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.ce72ebac.min.js"></script>
+      
+    
+  </body>
+</html>

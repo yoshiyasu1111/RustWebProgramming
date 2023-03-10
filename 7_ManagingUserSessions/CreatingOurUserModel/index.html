@@ -1,0 +1,1766 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../TechnicalRequirements/">
+      
+      
+        <link rel="next" href="../AuthenticatingOurUsers/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.0">
+    
+    
+      
+        <title>7.2 - ユーザーモデルを作成する - Rust Web Programming</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.402914a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+Japanese:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans Japanese";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Rust Web Programming" class="md-header__button md-logo" aria-label="Rust Web Programming" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Rust Web Programming
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              7.2 - ユーザーモデルを作成する
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Rust Web Programming" class="md-nav__button md-logo" aria-label="Rust Web Programming" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Rust Web Programming
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        序文
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          1章 - Rust Web開発入門
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          1章 - Rust Web開発入門
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1_QuickIntroduction/" class="md-nav__link">
+        1 - Rust Web開発入門
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1_QuickIntroduction/TechnicalRequirements/" class="md-nav__link">
+        1.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1_QuickIntroduction/WhyIsRustRevolutionary/" class="md-nav__link">
+        1.2 - なぜRustは革命的なのか？
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          2章 - RustでWebアプリケーションをデザインする
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          2章 - RustでWebアプリケーションをデザインする
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/" class="md-nav__link">
+        2 - RustでWebアプリケーションをデザインする
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/TechnicalRequirements/" class="md-nav__link">
+        2.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/ManagingASoftwareProjectWithCargo/" class="md-nav__link">
+        2.2 - Cargoによるソフトウェアプロジェクトの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/StructuringCode/" class="md-nav__link">
+        2.3 - コードの構造化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/InteractingWithTheEnvironment/" class="md-nav__link">
+        2.4 - 環境との相互作用
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/Summary/" class="md-nav__link">
+        2.5 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          3章 - HTTPリクエストの取り扱い
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          3章 - HTTPリクエストの取り扱い
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/" class="md-nav__link">
+        3 - HTTPリクエストの取り扱い
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/TechnicalRequirements/" class="md-nav__link">
+        3.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/IntroducingTheActixWebFramework/" class="md-nav__link">
+        3.2 - Actix Webフレームワークの紹介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/LaunchingABasicActixWebServer/" class="md-nav__link">
+        3.3 - 基本的なActix Webサーバーの立ち上げ
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/UnderstandingClosures/" class="md-nav__link">
+        3.4 - クロージャを理解する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/UnderstandingAsynchronousProgramming/" class="md-nav__link">
+        3.5 - 非同期プログラミングの理解
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/UnderstandingAsyncAndAwait/" class="md-nav__link">
+        3.6 - asyncとawaitを理解する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/ExploringAsyncAndAwaitWithWebProgramming/" class="md-nav__link">
+        3.7 - Webプログラミングでasyncとawaitを探求する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/ManagingViewsUsingTheActixWebFramework/" class="md-nav__link">
+        3.8 - Actix Webフレームワークを使用したビューの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/Summary/" class="md-nav__link">
+        3.9 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          4章 - HTTPリクエストの処理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          4章 - HTTPリクエストの処理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/" class="md-nav__link">
+        4 - HTTPリクエストの処理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/TechnicalRequirements/" class="md-nav__link">
+        4.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/GettingToKnowTheInitialSetupForFusingCode/" class="md-nav__link">
+        4.2 - コードを定着させるための初期設定について知る
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/PassingParametersIntoViews/" class="md-nav__link">
+        4.3 - ビューにパラメータを渡す
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/UsingMacrosForJSONSerialization/" class="md-nav__link">
+        4.4 - JSONシリアライズのためのマクロの使用
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/ExtractingDataFromViews/" class="md-nav__link">
+        4.5 - ビューからデータを抽出する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/Summary/" class="md-nav__link">
+        4.6 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          5章 - ブラウザでコンテンツを表示する
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          5章 - ブラウザでコンテンツを表示する
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/" class="md-nav__link">
+        5 - ブラウザでコンテンツを表示する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/TechnicalRequirements/" class="md-nav__link">
+        5.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/ServingHTMLCSSAndJavaScriptUsingRust/" class="md-nav__link">
+        5.2 - Rustを使ったHTML、CSS、JavaScriptのサービス提供
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/InjectingJavaScriptIntoHTML/" class="md-nav__link">
+        5.3 - HTMLにJavaScriptを注入する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/InjectingCSSIntoHTML/" class="md-nav__link">
+        5.4 - HTMLにCSSを組み込む
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/InheritingComponents/" class="md-nav__link">
+        5.5 - コンポーネントの継承
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/CreatingAReactApp/" class="md-nav__link">
+        5.6 - Reactアプリを作成する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/MakingAPICallsInReact/" class="md-nav__link">
+        5.7 - ReactでAPIを呼び出す
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/CreatingCustomComponentsInReact/" class="md-nav__link">
+        5.8 - Reactのカスタムコンポーネントの作成
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/LiftingCSSIntoReact/" class="md-nav__link">
+        5.9 - CSSをReactに持ち込む
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/ConvertingOurReactApplicationIntoADesktopApplication/" class="md-nav__link">
+        5.10 - Reactアプリケーションをデスクトップアプリケーションへ変換する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/Summary/" class="md-nav__link">
+        5.11 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          6章 - PostgreSQLによるデータ永続化
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          6章 - PostgreSQLによるデータ永続化
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/" class="md-nav__link">
+        6 - PostgreSQLによるデータ永続化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/TechnicalRequirements/" class="md-nav__link">
+        6.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/BuildingOurPostgreSQLDatabase/" class="md-nav__link">
+        6.2 - PostgreSQLデータベースの構築
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/ConnectingToPostgreSQLWithDiesel/" class="md-nav__link">
+        6.3 - DieselでPostgreSQLに接続する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/ConnectingOurAppToPostgreSQL/" class="md-nav__link">
+        6.4 - アプリをPostgreSQLに接続する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/InsertingIntoTheDatabase/" class="md-nav__link">
+        6.5 - データベースへの挿入
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/ConfiguringOurApplication/" class="md-nav__link">
+        6.6 - アプリケーションを構成する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/BuildingADatabaseConnectionPool/" class="md-nav__link">
+        6.7 - データベース接続プールの構築
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/Summary/" class="md-nav__link">
+        6.8 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          7章 - ユーザーセッションの管理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          7章 - ユーザーセッションの管理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        7 - ユーザーセッションの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TechnicalRequirements/" class="md-nav__link">
+        7.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          7.2 - ユーザーモデルを作成する
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        7.2 - ユーザーモデルを作成する
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    ユーザーモデルを作成する
+  </a>
+  
+    <nav class="md-nav" aria-label="ユーザーモデルを作成する">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user" class="md-nav__link">
+    Userデータモジュールを作成する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#newuser" class="md-nav__link">
+    NewUserデータモデルを作成する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#todo" class="md-nav__link">
+    ToDoアイテムのデータモデルを変更する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    スキーマファイルの更新
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    データベース上での移行スクリプトの作成と実行
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AuthenticatingOurUsers/" class="md-nav__link">
+        7.3 - ユーザーを認証する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ManagingUserSessions/" class="md-nav__link">
+        7.4 - ユーザーセッションの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CleaningUpAuthenticationRequirements/" class="md-nav__link">
+        7.5 - 認証要件のクリーンアップ
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ConfiguringExpirationOfAuthTokens/" class="md-nav__link">
+        7.6 - 認証トークンの有効期限を設定する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AddingAuthenticationIntoOurFrontend/" class="md-nav__link">
+        7.7 - フロントエンドに認証を追加する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Summary/" class="md-nav__link">
+        7.8 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    ユーザーモデルを作成する
+  </a>
+  
+    <nav class="md-nav" aria-label="ユーザーモデルを作成する">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user" class="md-nav__link">
+    Userデータモジュールを作成する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#newuser" class="md-nav__link">
+    NewUserデータモデルを作成する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#todo" class="md-nav__link">
+    ToDoアイテムのデータモデルを変更する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    スキーマファイルの更新
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    データベース上での移行スクリプトの作成と実行
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>7.2 - ユーザーモデルを作成する</h1>
+
+<h2 id="_1">ユーザーモデルを作成する</h2>
+<p>このアプリではユーザーセッションを管理するため、ToDoアイテムの作成、削除、編集を許可する前に、ユーザーに関する情報を保存して、ユーザーの認証情報をチェックする必要があります。ここでは、ユーザーデータをPostgreSQLデータベースに保存することにします。これは必須ではありませんが、データベース内のユーザーをToDoアイテムにリンクさせる予定です。これにより、既存のテーブルを変更し、テーブル間のリンクを作成する方法について理解することができます。ユーザーモデルを作成するために、以下のことを行う必要があります。</p>
+<ol>
+<li>Userデータモデルを作成する。</li>
+<li>NewUserデータモデルを作成する。</li>
+<li>ToDo項目データ・モデルをユーザー・モデルにリンクできるように変更する。</li>
+<li>新しいテーブルと変更したフィールドでスキーマファイルを更新する。</li>
+<li>データベース上で移行スクリプトを作成し、実行する。</li>
+</ol>
+<p>次のセクションでは、前述のステップを詳しく見ていきます。</p>
+<h3 id="user">Userデータモジュールを作成する</h3>
+<p>開始する前に、Cargo.tomlファイルの依存関係を以下のように更新する必要があります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">[dependencies]</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="w"> </span><span class="p">.</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">bcrypt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0.13.0&quot;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">uuid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;1.0.0&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;serde&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v4&quot;</span><span class="p">]}</span>
+</code></pre></div>
+<p>パスワードのハッシュ化とチェックにはbcryptクレートを使用し、ユーザデータモデルの一意なIDの生成にはuuidクレートを使用する予定です。第6章PostgreSQLによるデータ永続化で説明したように、ユーザーデータモデル用に2つの異なる構造体を作成する必要があります。</p>
+<p>新しいユーザーは、まだデータベースに存在しないため、idフィールドを持ちません。このIDは、新しいユーザーがテーブルに挿入されるときにデータベースによって作成されます。データベース内の既存のユーザーとやり取りするときにこのIDを使用する必要があるため、追加したidフィールドを含むすべての同じフィールドを持つ別の構造体を作成します。ID番号は、他のテーブルを参照する際に便利です。ID番号は短いし、一意であることが分かっているからです。ユーザーをToDo項目にリンクさせるために、ユーザーIDを使用する予定です。これらのデータモデルは、src/models.rsディレクトリにある以下のファイル構造に格納することができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>└── user
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    ├── mod.rs
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    ├── new_user.rs
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    └── user.rs
+</code></pre></div>
+<p>new_user.rsファイルでデータモデルを定義します。まず、このようにインポートを定義する必要があります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">use</span><span class="w"> </span><span class="n">uuid</span>::<span class="n">Uuid</span><span class="p">;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">use</span><span class="w"> </span><span class="n">diesel</span>::<span class="n">Insertable</span><span class="p">;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">use</span><span class="w"> </span><span class="n">bcrypt</span>::<span class="p">{</span><span class="n">DEFAULT_COST</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="p">};</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">schema</span>::<span class="n">users</span><span class="p">;</span>
+</code></pre></div>
+<p>注意しなければならないのは、まだスキーマでユーザーを定義していないことです。これは、すべてのデータモデルを完成させた後に行うことにします。ユーザー・スキーマを定義するまでは、コードをコンパイルすることができません。また、新しいユーザーを作成するときにユニークなIDを作成するため、ユニークIDクレートをインポートし、新しいユーザーをデータベースに挿入するため、ディーゼルクレートからInsertable traitをインポートする予定です。次に、bcryptクレートからハッシュ関数を使用して、新しいユーザーのために定義した新しいパスワードをハッシュ化します。また、bcryptクレートからDEFAULT_COST定数をインポートしていることも確認できます。DEFAULT_COSTは、単にハッシュ関数に渡す定数です。なぜそうなるのかは、次章のパスワードのハッシュ化で説明します。これで、ユーザー データ モデル モジュールを定義し、必要なものをインポートしたので、次のセクションに進んで NewUser 構造体を作成することができます。</p>
+<h3 id="newuser">NewUserデータモデルを作成する</h3>
+<p>次のコードでデータモデルを定義することができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="cp">#[derive(Insertable, Clone)]</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="cp">#[table_name=</span><span class="s">&quot;users&quot;</span><span class="cp">]</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">NewUser</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">username</span>: <span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">email</span>: <span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">password</span>: <span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">unique_id</span>: <span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="p">}</span>
+</code></pre></div>
+<p>ここで、データモデルが挿入可能であることを確認できます。しかし、クエリを実行することは許可していません。ユーザがデータベースから検索されたときに、そのユーザのIDが存在することを確認したいのです。ユーザーの一般的なデータ・モデルの定義に移ることもできますが、これは安全ではありません。パスワードをハッシュ化することで、確実に保護する必要があります。第2章「RustでWebアプリケーションを設計する」を覚えている方は、特定のToDo構造体にアクションを実行させるためにtraitを利用しました。ある構造体は作成でき、ある構造体は実装したtraitに基づいて削除することができました。ここでは、Insertable traitを実装するだけで、NewUser構造体の機能をロックダウンしています。しかし、次の図に示すように、User構造体に対して他のtraitを実装することで、クエリを実行できるようにします。</p>
+<p>図7.1 「traitでデータモデルの構造体をロックダウンさせる</p>
+<p>新しいユーザーをデータベースに挿入する構造体を作成したので、ユーザーのパスワードをデータベースに保存する方法を検討します。</p>
+<p>なぜ、忘れたパスワードを復元できないのか、リセットしかできないのか、不思議に思ったことがあるかもしれません。これは、パスワードがハッシュ化されているためです。パスワードをハッシュ化することは、パスワードを保存する際によく行われることです。これは、アルゴリズムを使ってパスワードを難読化し、読み取ることができないようにするものです。これが行われると、元に戻すことはできません。</p>
+<p>そして、ハッシュ化されたパスワードは、データベースに保存される。パスワードを確認するために、入力されたパスワードをハッシュ化し、データベース内のハッシュ化されたパスワードと比較します。これにより、入力されたハッシュ化されたパスワードが、データベースに保存されているハッシュ化されたパスワードと一致するかどうかを確認することができます。これには、いくつかの利点があります。まず、データにアクセスできる従業員にパスワードを知られることを防ぐことができます。また、データ漏洩があった場合、漏洩したデータから、そのデータを持っていた人にあなたのパスワードが直接知られるのを防ぐことができます。</p>
+<p>多くの人が同じパスワードを複数のことに使っている（使ってはいけないのに）ことを考えると、パスワードをハッシュ化していないためにデータ漏洩が起きた場合、あなたのアプリを使っている人たちに与えるダメージは想像に難くないでしょう。しかし、ハッシュ化はこれよりもっと複雑です。同じパスワードをハッシュ化しても、同じハッシュにはならないようにする、ソルティングという概念があるのです。これは、ハッシュ化する前にパスワードに余分なビットのデータを追加することで実現されます。ハッシュ関数に渡すDEFAULT_COST定数も、このために用意されたものです。例えば、データベースのデータを手に入れ、その中にあるパスワードを推測するコードを書きたいとします。十分な計算能力があれば、効率よくパスワードを推測することができる。そこで、コスト・パラメータを渡すことができる。コスト・パラメータを増やすと、CPU時間かメモリのどちらかの作業量が指数関数的に増加します。コスト係数を1つ増やすと、ハッシュを計算するのに必要な演算回数が1万回、あるいはそれ以上に増える。</p>
+<p>パスワードのセキュリティについてより詳細に説明することは、本書の範囲を超えています。しかし、パスワードを保存する際には、パスワードのハッシュ化は常に必須であることを強調しておかなければならない。幸いなことに、主要な言語には、わずか数行のコードでパスワードのハッシュ化とチェックを可能にするさまざまなモジュールが存在します。ここでもRustは変わりません。</p>
+<p>新しいユーザーをハッシュ化されたパスワードでデータベースに挿入できるようにするため、次の手順を実行します。</p>
+<ol>
+<li>まず、次のように定義されたNewUserコンストラクタで、入力されたパスワードがハッシュ化されるようにする必要があります。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">impl</span><span class="w"> </span><span class="n">NewUser</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">new</span><span class="p">(</span><span class="n">username</span>: <span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">        </span><span class="n">email</span>: <span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">password</span>: <span class="nb">String</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">NewUser</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">hashed_password</span>: <span class="nb">String</span> <span class="o">=</span><span class="w"> </span><span class="n">hash</span><span class="p">(</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">                </span><span class="n">password</span><span class="p">.</span><span class="n">as_str</span><span class="p">(),</span><span class="w"> </span><span class="n">DEFAULT_COST</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">            </span><span class="p">).</span><span class="n">unwrap</span><span class="p">();</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">uuid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Uuid</span>::<span class="n">new_v4</span><span class="p">().</span><span class="n">to_string</span><span class="p">();</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">NewUser</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">            </span><span class="n">username</span><span class="p">,</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">            </span><span class="n">email</span><span class="p">,</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">            </span><span class="n">password</span>: <span class="nc">hashed_password</span><span class="p">,</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">            </span><span class="n">unique_id</span>: <span class="nc">uuid</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="p">}</span>
+</code></pre></div>
+<p>ここでは、bcrypt crateのハッシュ関数を使ってパスワードをハッシュ化し、DEFAULT_COST定数も渡しています。また、Uuidクレートを使用して一意のIDを作成し、これらの属性を持つNewUser構造体の新しいインスタンスを構築しています。今回のアプリでは、一意なIDは実際には必要ありません。しかし、複数のサーバーやデータベースの間で通信を行う場合、これらは便利なものになります。</p>
+<ol>
+<li>NewUserデータモデルを定義したので、次のコードでuser.rsファイルに一般ユーザーデータモデルを定義することができます。まず、以下のインポートを定義する必要があります。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">extern</span><span class="w"> </span><span class="k">crate</span><span class="w"> </span><span class="n">bcrypt</span><span class="p">;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">use</span><span class="w"> </span><span class="n">diesel</span>::<span class="p">{</span><span class="n">Queryable</span><span class="p">,</span><span class="w"> </span><span class="n">Identifiable</span><span class="p">};</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">use</span><span class="w"> </span><span class="n">bcrypt</span>::<span class="n">verify</span><span class="p">;</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">schema</span>::<span class="n">users</span><span class="p">;</span>
+</code></pre></div>
+<p>ここでは、verify機能を使用していることと、一般ユーザーデータモデル構造体がクエリ可能で識別可能であることを許可していることがわかります。</p>
+<ol>
+<li>前のステップで定義したインポートを使用して、User構造体を構築することができます。この構造体は、データベースへのクエリを実行するときにデータベースから読み込まれる構造体であることを忘れないでください。User構造体はNewUser構造体と同じテーブルを使用しますが、idフィールドがあり、挿入ではなくクエリで処理されるためです。User構造体を構築したら、次のようなコードになるはずです。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="cp">#[derive(Queryable, Clone, Identifiable)]</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="cp">#[table_name=</span><span class="s">&quot;users&quot;</span><span class="cp">]</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">User</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">id</span>: <span class="kt">i32</span><span class="p">,</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">username</span>: <span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">email</span>: <span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">password</span>: <span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">unique_id</span>: <span class="nb">String</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="p">}</span>
+</code></pre></div>
+<p>idフィールドを追加しただけで、Insertable traitの代わりにQueryable traitを派生させていることがわかりますね。</p>
+<ol>
+<li>User構造体が定義されたので、次のコードで、入力されたパスワードがユーザーに属するパスワードと一致するかどうかを検証する関数を構築することができます。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">impl</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">verify</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">password</span>: <span class="nb">String</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="n">verify</span><span class="p">(</span><span class="n">password</span><span class="p">.</span><span class="n">as_str</span><span class="p">(),</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="o">&amp;</span><span class="bp">self</span><span class="p">.</span><span class="n">password</span><span class="p">).</span><span class="n">unwrap</span><span class="p">()</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="p">}</span>
+</code></pre></div>
+<ol>
+<li>さて、モデルが定義されたので、忘れずにmodels/user/mod.rsファイルに以下のコードでモデルを登録しなければなりません。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">mod</span> <span class="nn">new_user</span><span class="p">;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">pub</span><span class="w"> </span><span class="k">mod</span> <span class="nn">user</span><span class="p">;</span>
+</code></pre></div>
+<ol>
+<li>さらに、models/mod.rsファイルに以下の行を追加することで、これらのモジュールにアプリからアクセスできるようにすることができます。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">mod</span> <span class="nn">item</span><span class="p">;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">pub</span><span class="w"> </span><span class="k">mod</span> <span class="nn">user</span><span class="p">;</span>
+</code></pre></div>
+<p>これで、ユーザーのデータモデルが定義されました。しかし、まだToDo項目とリンクさせる必要があります。</p>
+<h3 id="todo">ToDoアイテムのデータモデルを変更する</h3>
+<p>データモデルをToDo項目にリンクさせるためには、ToDoデータモデルを変更する必要があります。これを行うには、複数の方法があります。例えば、アイテムテーブルにuser_idフィールドを追加し、userテーブルのunique_idフィールドをそのまま使うことができます。新しいアイテムを作成するときに、そのユーザーのユニークIDをアイテムのコンストラクタに渡します。これは簡単に実装できるのですが、しかし、リスクもあります。ユーザーのユニークIDをアイテムに渡すだけでは、そのユーザーのIDが有効であり、データベースにあることを強制するものではありません。削除されたユーザーのIDをアイテムコンストラクタに挿入して、孤児となったアイテムをデータベースに挿入することを止めるものは何もありません。この場合、孤児となったアイテムが関連するユーザーIDへの参照がないため、後で抽出するのは困難です。次の図のように、ユーザーのIDとアイテムのIDを参照する新しいテーブルを作成することもできます。</p>
+<p>図7.2 「ユーザーとアイテムの関連付けを記録するための独立したデータベーステーブル</p>
+<p>この利点は、テーブルを削除するだけで、ユーザーとアイテムを簡単に切り離すことができることです。しかし、新しいエントリーを作成する際に、有効なユーザーIDの強制やアイテムIDの強制を行うことはできません。また、ユーザーからアイテムを取得するために、アソシエーションテーブルとアイテムテーブルの2つのクエリーを作成する必要があります。アイテム・テーブルにユーザーIDカラムを付加する方法と、アイテムIDとユーザー固有IDを保持するブリッジ・テーブルを作成する方法の2つは簡単に実装できるので、ここでは説明せず、この時点で自分で実装できるようにします。ToDoアプリケーションの文脈では、先の2つの方法は、何のメリットもなく、データベースにデータを挿入する際にエラーが発生する危険性があるため、劣った方法となります。とはいえ、先の2つの方法を絶対に使ってはいけないというわけではありません。プロジェクトによって、必要なデータは異なります。私たちのプロジェクトでは、次の図に示すように、ユーザーとアイテムを結びつける外部キーを作成する予定です。</p>
+<p>図7.3 - ユーザーとアイテム間の外部キー関連付け</p>
+<p>このため、1回のデータベース呼び出しでユーザーに関連するアイテムにアクセスすることはできませんが、データベース内の正規のユーザーIDへの参照を持つアイテムのみを挿入することができます。外部キーはまた、カスケードイベントを引き起こすことができ、ユーザーを削除すると、そのユーザーに関連する既存のアイテムがすべて自動的に削除され、孤児が作成されるのを防ぐことができます。外部キーは、マクロでテーブルへのリンクを宣言することで作成します。models/item/item.rsでは、最初に以下のインポートを用意することでこれを実現します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">schema</span>::<span class="n">to_do</span><span class="p">;</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">use</span><span class="w"> </span><span class="n">chrono</span>::<span class="n">NaiveDateTime</span><span class="p">;</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="k">use</span><span class="w"> </span><span class="k">super</span>::<span class="k">super</span>::<span class="n">user</span>::<span class="n">user</span>::<span class="n">User</span><span class="p">;</span>
+</code></pre></div>
+<p>次のコードに示すように、Item構造体がUser構造体に属していることを主張するために、belongs_toマクロで参照することになるので、User構造体をインポートする必要があることがわかります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="cp">#[derive(Queryable, Identifiable, Associations)]</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="cp">#[belongs_to(User)]</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="cp">#[table_name=</span><span class="s">&quot;to_do&quot;</span><span class="cp">]</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">Item</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">id</span>: <span class="kt">i32</span><span class="p">,</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">title</span>: <span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">status</span>: <span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">date</span>: <span class="nc">NaiveDateTime</span><span class="p">,</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">user_id</span>: <span class="kt">i32</span><span class="p">,</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="p">}</span>
+</code></pre></div>
+<p>ここでは、ユーザーデータモデル構造体をインポートし、belongs_toマクロで定義し、user_idフィールドを追加して構造体をリンクしていることが確認できます。なお、Associationsマクロを含めないと、belongs_toマクロは呼び出すことができません。</p>
+<p>最後に、models/item/new_item.rsファイルのfieldsとconstructorにuser_idフィールドを追加する必要があります。これは、新しいToDo項目を、その項目を作成したユーザーにリンクさせるために必要なことです。これは、次のコードを使用することで実現できます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">schema</span>::<span class="n">to_do</span><span class="p">;</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="k">use</span><span class="w"> </span><span class="n">chrono</span>::<span class="p">{</span><span class="n">NaiveDateTime</span><span class="p">,</span><span class="w"> </span><span class="n">Utc</span><span class="p">};</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="cp">#[derive(Insertable)]</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="cp">#[table_name=</span><span class="s">&quot;to_do&quot;</span><span class="cp">]</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">NewItem</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">title</span>: <span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">status</span>: <span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">date</span>: <span class="nc">NaiveDateTime</span><span class="p">,</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">user_id</span>: <span class="kt">i32</span><span class="p">,</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="p">}</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="k">impl</span><span class="w"> </span><span class="n">NewItem</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">new</span><span class="p">(</span><span class="n">title</span>: <span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">user_id</span>: <span class="kt">i32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">NewItem</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">now</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Utc</span>::<span class="n">now</span><span class="p">().</span><span class="n">naive_local</span><span class="p">();</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="w">        </span><span class="n">NewItem</span><span class="p">{</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="w">            </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">status</span>: <span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;PENDING&quot;</span><span class="p">),</span>
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="w">            </span><span class="n">date</span>: <span class="nc">now</span><span class="p">,</span>
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="w">            </span><span class="n">user_id</span>
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="p">}</span>
+</code></pre></div>
+<p>そこで、これまでの内容を整理すると、データモデル構造体はすべて変更され、アプリでデータベースとやり取りする際に必要なときに必要な分だけ使用できるようになりました。しかし、データベースを更新していませんし、アプリとデータベースをつなぐブリッジも更新していません。次にこれを行う予定です。</p>
+<h3 id="_2">スキーマファイルの更新</h3>
+<p>データモデル構造体からデータベースへのマッピングが最新であることを確認するために、これらの変更に合わせてスキーマを更新する必要があります。つまり、ToDo項目テーブルの既存のスキーマを変更し、src/schema.rsファイルにユーザースキーマを追加する必要があります。これは、次のコードで示されます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">table</span><span class="o">!</span><span class="w"> </span><span class="err">{</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="n">to_do</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">        </span><span class="n">id</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Int4</span><span class="p">,</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">        </span><span class="n">title</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb">Varchar</span><span class="p">,</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">        </span><span class="n">status</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb">Varchar</span><span class="p">,</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">        </span><span class="nb">date</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">Timestamp</span><span class="p">,</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">        </span><span class="n">user_id</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Int4</span><span class="p">,</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">    </span><span class="err">}</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="err">}</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="k">table</span><span class="o">!</span><span class="w"> </span><span class="err">{</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">    </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">        </span><span class="n">id</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Int4</span><span class="p">,</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="w">        </span><span class="n">username</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb">Varchar</span><span class="p">,</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">        </span><span class="n">email</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb">Varchar</span><span class="p">,</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="w">        </span><span class="n">password</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb">Varchar</span><span class="p">,</span>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="w">        </span><span class="n">unique_id</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb">Varchar</span><span class="p">,</span>
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="w">    </span><span class="err">}</span>
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="err">}</span>
+</code></pre></div>
+<p>スキーマファイルのフィールドは、Rustのデータモデルと同じ順序で定義されていることに注意する必要があります。これは重要なことで、そうしないと、データベースに接続するときにフィールドが不一致になるからです。また、スキーマは単にフィールドとその型を定義しているだけで、ToDoテーブルとユーザーテーブルの関係を網羅しているわけではないこともお分かりいただけると思います。</p>
+<p>なぜなら、私たちが独自のマイグレーションを作成し実行すると、このスキーマファイルはリレーションシップで更新されるからです。このため、このスキーマファイルを完成させるために、独自のマイグレーションを作成することになります。</p>
+<h3 id="_3">データベース上での移行スクリプトの作成と実行</h3>
+<p>マイグレーションの実行は、第6章「PostgreSQLによるデータ永続化」で取り上げた、Dieselクライアントのインストールとデータベースへの接続方法と同様の流れになります。まず、docker-composeコマンドでデータベースを実行する必要があります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>$<span class="w"> </span>docker-compose<span class="w"> </span>up
+</code></pre></div>
+<p>マイグレーションを実行する際には、これをバックグラウンドで実行する必要があります。次に、以下のコマンドを実行することで、マイグレーションスクリプトを作成することができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>$<span class="w"> </span>diesel<span class="w"> </span>migration<span class="w"> </span>generate<span class="w"> </span>create_users
+</code></pre></div>
+<p>これにより、migrationsの中にディレクトリが作成され、そのディレクトリのユーザー名にcreate_usersが含まれる。このディレクトリの中に、2つの空のSQLファイルがあります。ここでは、migrationsのための独自のSQLスクリプトを手動で記述します。当初は、他の言語でもこれらのマイグレーションを自動生成するライブラリがあるので、不要だと思うかもしれませんが、これを行うことにはいくつかの利点があります。</p>
+<p>は、まず、もう一つの便利なツールであるSQLに手をつけておくことができます。これにより、私たちが解決しようとしている日々の問題で、SQLを活用したソリューションを考えることができるようになります。また、マイグレーションの流れをより細かくコントロールすることができます。たとえば、これから作成するマイグレーションでは、ユーザーテーブルとベースユーザーを作成し、to_doテーブルのカラムを変更する際に、プレースホルダーユーザー行のIDで埋めることができるようにする必要があります。これをup.sqlファイルで次のようなテーブル定義で実行します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="n">username</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">UNIQUE</span><span class="p">,</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="n">email</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">UNIQUE</span><span class="p">,</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">    </span><span class="n">password</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span><span class="n">unique_id</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="p">);</span>
+</code></pre></div>
+<p>これは分かりやすいですね。emailとusernameのフィールドは一意であることに注意してください。これは、ユーザー名と電子メールが重複しているユーザーを排除するためです。このレベルで制約を入れるのは、いくつかの理由からです。たとえば、ユーザー名と電子メールをデータベースから呼び出し、重複している場合は新しいユーザーの挿入を拒否することで、この問題から保護することができます。</p>
+<p>しかし、コードに誤りがあるかもしれませんし、将来誰かが私たちのコードを変更するかもしれません。編集機能など、このチェックがない新機能が導入されるかもしれない。行を変更したり、新しいユーザーを挿入したりする移行があるかもしれません。自分でSQLを書く場合は、操作が終了したことを示すために;記号を使用することを確認することが、通常、ベストプラクティスです。</p>
+<p>このSQLコマンドが発行され、その後に次のコマンドが発行されます。up.sqlファイルの次のコマンドは、次のコマンドでプレースホルダ・ユーザ行を挿入します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">username</span><span class="p">,</span><span class="w"> </span><span class="n">email</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">,</span><span class="w"> </span><span class="n">unique_id</span><span class="p">)</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;placeholder&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;placeholder email&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;placeholder password&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;placeholder unique id&#39;</span><span class="p">);</span>
+</code></pre></div>
+<p>ユーザーを作成したので、次にto_doテーブルを変更します。これは、先ほどのコマンドと同じファイル内で、次のコマンドを実行することで可能です。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">to_do</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="n">user_id</span><span class="w"> </span><span class="nb">integer</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="mi">1</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">user_id</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</code></pre></div>
+<p>以上で、up.sqlマイグレーションは定義されました。次に、down.sqlマイグレーションを定義する必要があります。downマイグレーションでは、基本的にupマイグレーションで行ったことを逆にしなければなりません。つまり、to_doテーブルのuser_idカラムを削除し、さらにuserテーブルを完全に削除します。これは、down.sqlファイル内の以下のSQLコードで行うことができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">to_do</span><span class="w"> </span><span class="k">DROP</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">user_id</span><span class="p">;</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">users</span>
+</code></pre></div>
+<p>マイグレーションがデータベースに影響を与えるためには、Dockerが起動している必要があることを念頭に置いておく必要があります。このマイグレーションが実行されると、src/schema.rsファイルに以下のコードが追加されていることが確認できます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="n">joinable</span><span class="o">!</span><span class="p">(</span><span class="n">to_do</span><span class="w"> </span>-&gt; <span class="nc">users</span><span class="w"> </span><span class="p">(</span><span class="n">user_id</span><span class="p">));</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="n">allow_tables_to_appear_in_same_query</span><span class="o">!</span><span class="p">(</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">    </span><span class="n">to_do</span><span class="p">,</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">    </span><span class="n">users</span><span class="p">,</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="p">);</span>
+</code></pre></div>
+<p>これにより、RustデータモデルがユーザーとToDoアイテムの関係に関するクエリーを実行できるようになります。このマイグレーションが完了したら、アプリを再び実行することができます。しかし、その前に、src/views/to_do/create.rs ファイルを少し変更する必要があります。create ビュー関数の新しいアイテムのコンストラクタで、次の行のコードを使用してデフォルトのユーザー ID を追加します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">new_post</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NewItem</span>::<span class="n">new</span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+</code></pre></div>
+<p>今アプリを実行すると、第6章PostgreSQLによるデータ永続化で説明したのと同じ動作になり、作成したマイグレーションでアプリが実行されます。しかし、パスワードをハッシュ化し、一意のIDを生成する際に、新しいユーザーのコンストラクタが機能するかどうかも確認する必要があります。</p>
+<p>これを行うには、ユーザー作成エンドポイントを構築する必要があります。そのためには、スキーマを定義し、新しいユーザーをデータベースに挿入するビューを定義する必要があります。スキーマは、src/json_serialization/new_user.rs ファイルに以下のコードで作成できます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="k">use</span><span class="w"> </span><span class="n">serde</span>::<span class="n">Deserialize</span><span class="p">;</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="cp">#[derive(Deserialize)]</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">NewUserSchema</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">name</span>: <span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">email</span>: <span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">password</span>: <span class="nb">String</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="p">}</span>
+</code></pre></div>
+<p>この後、src/json_serialization/mod.rs ファイルで pub mod new_user; として新しいユーザースキーマを宣言することができます。スキーマが定義されたら、次のようなファイル構成で独自のユーザ・ビュー・モジュールを作成することができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>views
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>...
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>└── users
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>    ├── create.rs
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>    └── mod.rs
+</code></pre></div>
+<p>users/create.rsファイルでは、createビュー関数を構築する必要があります。まず、以下のクレートをインポートします。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">diesel</span><span class="p">;</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="k">use</span><span class="w"> </span><span class="n">diesel</span>::<span class="n">prelude</span>::<span class="o">*</span><span class="p">;</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="k">use</span><span class="w"> </span><span class="n">actix_web</span>::<span class="p">{</span><span class="n">web</span><span class="p">,</span><span class="w"> </span><span class="n">HttpResponse</span><span class="p">,</span><span class="w"> </span><span class="n">Responder</span><span class="p">};</span>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="k">use</span><span class="w"> </span><span class="n">actix_web</span>::<span class="n">HttpResponseBuilder</span><span class="p">;</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">database</span>::<span class="n">DB</span><span class="p">;</span>
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">json_serialization</span>::<span class="n">new_user</span>::<span class="n">NewUserSchema</span><span class="p">;</span>
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">models</span>::<span class="n">user</span>::<span class="n">new_user</span>::<span class="n">NewUser</span><span class="p">;</span>
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">schema</span>::<span class="n">users</span><span class="p">;</span>
+</code></pre></div>
+<p>これまで何度もビューを構築してきたので、これらのインポートは驚くようなものではありません。データベースへの呼び出しを可能にするために、Dieselマクロとcrateをインポートします。次に、actix_web traitsとstructsをインポートして、ビューへのデータの流入と流出を可能にします。次に、スキーマと構造体をインポートして、受信および処理するデータを構造化します。正しいクレートをインポートしたので、次のコードでビュー作成関数を定義する必要があります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span> <span class="nf">create</span><span class="p">(</span><span class="n">new_user</span>: <span class="nc">web</span>::<span class="n">Json</span><span class="o">&lt;</span><span class="n">NewUserSchema</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">db</span>: <span class="nc">DB</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">impl</span><span class="w"> </span><span class="n">Responder</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="w">    </span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="w"> </span><span class="p">.</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="p">}</span>
+</code></pre></div>
+<p>ここでは、NewUserSchema構造体に読み込まれたJSONデータを受け入れていることがわかります。また、DB構造体を使用して、接続プールからデータベース接続を確立しています。create view関数内では、NewUserSchema構造体から必要なデータを抽出し、以下のコードでNewUser構造体を作成しています。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">new_user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NewUser</span>::<span class="n">new</span><span class="p">(</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">    </span><span class="n">new_user</span><span class="p">.</span><span class="n">name</span><span class="p">.</span><span class="n">clone</span><span class="p">(),</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">    </span><span class="n">new_user</span><span class="p">.</span><span class="n">email</span><span class="p">.</span><span class="n">clone</span><span class="p">(),</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">    </span><span class="n">new_user</span><span class="p">.</span><span class="n">password</span><span class="p">.</span><span class="n">clone</span><span class="p">()</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="p">);</span>
+</code></pre></div>
+<p>NewUserコンストラクタに渡すフィールドのクローンを作成する必要があります。これは、文字列がCopy traitを実装していないためで、手動で行う必要があります。次に、データベースへの挿入コマンドを作成し、次のコードでそれを実行します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">insert_result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">diesel</span>::<span class="n">insert_into</span><span class="p">(</span><span class="n">users</span>::<span class="n">table</span><span class="p">)</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="w">                            </span><span class="p">.</span><span class="n">values</span><span class="p">(</span><span class="o">&amp;</span><span class="n">new_user</span><span class="p">)</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="w">                            </span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="o">&amp;</span><span class="n">db</span><span class="p">.</span><span class="n">connection</span><span class="p">);</span>
+</code></pre></div>
+<p>これはResult構造体を返します。ただし、直接アンラップするわけではありません。コンフリクトが発生する可能性があるからです。たとえば、すでにデータベースにあるユーザー名や電子メールを持つ新しいユーザーを挿入しようとすることがあります。しかし、これがエラーになるのは避けたいところです。これは、ユニークなユーザー名と電子メールの制約を私たち自身が実装しているため、予想されるエッジケースです。もし、ビューの実行時に正当なエラーが発生したのであれば、私たちはそれを知る必要があります。したがって、エッジケースに応答コードを与える必要があります。そこで、次のコードでinsertの結果を照合し、適切なレスポンスコードを返します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="k">match</span><span class="w"> </span><span class="n">insert_result</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="w">    </span><span class="nb">Ok</span><span class="p">(</span><span class="n">_</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">HttpResponse</span>::<span class="n">Created</span><span class="p">(),</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="w">    </span><span class="nb">Err</span><span class="p">(</span><span class="n">_</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">HttpResponse</span>::<span class="n">Conflict</span><span class="p">()</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="p">}</span>
+</code></pre></div>
+<p>ここでは、データベース接続を確立し、JSON本体からフィールドを抽出して、新しいNewUser構造体を作成し、それをデータベースに挿入しています。ここでは、他のビューと比較して、若干の違いがあります。リターン・レスポンスでは、awaitしてからunwrapする必要があるのです。これは、JSONボディを返さないためです。したがって、HttpResponse::Ok()は、単なるビルダー構造体である。</p>
+<p>さて、create viewを構築したので、views/users/mod.rsファイルにビューファクトリーを次のように定義する必要があります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="k">mod</span> <span class="nn">create</span><span class="p">;</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="k">use</span><span class="w"> </span><span class="n">actix_web</span>::<span class="n">web</span>::<span class="p">{</span><span class="n">ServiceConfig</span><span class="p">,</span><span class="w"> </span><span class="n">post</span><span class="p">,</span><span class="w"> </span><span class="n">scope</span><span class="p">};</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">user_views_factory</span><span class="p">(</span><span class="n">app</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="n">ServiceConfig</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="w">    </span><span class="n">app</span><span class="p">.</span><span class="n">service</span><span class="p">(</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="w">        </span><span class="n">scope</span><span class="p">(</span><span class="s">&quot;v1/user&quot;</span><span class="p">)</span>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="w">            </span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">&quot;create&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">post</span><span class="p">().</span><span class="n">to</span><span class="p">(</span><span class="n">create</span>::<span class="n">create</span><span class="p">))</span>
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="w">    </span><span class="p">);</span>
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a><span class="p">}</span>
+</code></pre></div>
+<p>繰り返しになりますが、私たちは定期的にビューを構築しているので、このどれもが驚くようなことではありません。もしそうなら、第3章HTTPリクエストの処理のActix Webフレームワークを使用したビューの管理セクションを読んで、明確にすることをお勧めします。さて、views/mod.rsファイル内のメインビューファクトリーは、以下のような感じになっているはずです。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="k">mod</span> <span class="nn">auth</span><span class="p">;</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="k">mod</span> <span class="nn">to_do</span><span class="p">;</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="k">mod</span> <span class="nn">app</span><span class="p">;</span>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="k">mod</span> <span class="nn">users</span><span class="p">;</span>
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="k">use</span><span class="w"> </span><span class="n">auth</span>::<span class="n">auth_views_factory</span><span class="p">;</span>
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a><span class="k">use</span><span class="w"> </span><span class="n">to_do</span>::<span class="n">to_do_views_factory</span><span class="p">;</span>
+<a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a><span class="k">use</span><span class="w"> </span><span class="n">app</span>::<span class="n">app_views_factory</span><span class="p">;</span>
+<a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a><span class="k">use</span><span class="w"> </span><span class="n">users</span>::<span class="n">user_views_factory</span><span class="p">;</span>
+<a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a><span class="k">use</span><span class="w"> </span><span class="n">actix_web</span>::<span class="n">web</span>::<span class="n">ServiceConfig</span><span class="p">;</span>
+<a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">views_factory</span><span class="p">(</span><span class="n">app</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="n">ServiceConfig</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a><span class="w">    </span><span class="n">auth_views_factory</span><span class="p">(</span><span class="n">app</span><span class="p">);</span>
+<a id="__codelineno-30-12" name="__codelineno-30-12" href="#__codelineno-30-12"></a><span class="w">    </span><span class="n">to_do_views_factory</span><span class="p">(</span><span class="n">app</span><span class="p">);</span>
+<a id="__codelineno-30-13" name="__codelineno-30-13" href="#__codelineno-30-13"></a><span class="w">    </span><span class="n">app_views_factory</span><span class="p">(</span><span class="n">app</span><span class="p">);</span>
+<a id="__codelineno-30-14" name="__codelineno-30-14" href="#__codelineno-30-14"></a><span class="w">    </span><span class="n">user_views_factory</span><span class="p">(</span><span class="n">app</span><span class="p">);</span>
+<a id="__codelineno-30-15" name="__codelineno-30-15" href="#__codelineno-30-15"></a><span class="p">}</span>
+</code></pre></div>
+<p>ユーザービューの登録が完了したので、アプリを実行し、次のPostmanコールでユーザーを作成します。</p>
+<p>図7.4 - Postmanによるcreate userエンドポイントへの呼び出し</p>
+<p>これで、201のcreated responseを得ることができるはずです。まったく同じ呼び出しをもう一度行うと、409コンフリクトが返されるはずです。これで、新しいユーザが作成されたことになります。第6章PostgreSQLによるデータ永続化」の「DieselによるPostgreSQLへの接続」で説明した手順で、Dockerコンテナ内のデータベースを検査すると、次のように表示されます。</p>
+<p>```rust
+ id |    name     |       email
+----+-------------+-------------------
+  1 | placeholder | placeholder email
+  2 | maxwell     | test@gmail.com
+                           password</p>
+<hr />
+<p>placeholder password
+ $2b$12$jlfLwu4AHjrvTpZrB311Y.W0JulQ71WVy2g771xl50e5nS1UfqwQ.
+              unique_id</p>
+<hr />
+<p>placeholder unique id
+ 543b7aa8-e563-43e0-8f62-55211960a604
+ ```</p>
+<p>ここでは、マイグレーションで作成された初期ユーザーを見ることができます。しかし、ビューで作成したユーザーも見ることができます。ここでは、ハッシュ化されたパスワードと一意のIDがあります。NewUser構造体に属するコンストラクタ関数を通じてのみ、ユーザーを作成する必要があります。</p>
+<p>私たちのアプリの文脈では、ユニークなIDは必要ありません。しかし、複数のサーバーやデータベースを使用するような状況では、ユニークなIDが役に立つことがあります。また、2回目の競合対応は正しく、3回目のレプリカ作成ユーザー呼び出しでは、データベースにレプリカユーザーが挿入されなかったことにも注意しなければなりません。</p>
+<p>これで、ToDo項目にリンクされたユーザーモデルを持つユーザーテーブルが存在することになり、私たちのアプリは通常通り稼働するようになりました。このように、リレーションシップと構造マイグレーションを持つ他のデータテーブルを作成することで、シームレスにアップグレードやダウングレードができるようになります。また、パスワードの検証や作成方法についても解説しました。しかし、実際にユーザーが正しい認証情報を渡しているかどうかをチェックするコードは書いていません。次のセクションでは、ユーザーを認証し、正しい資格情報が含まれていないリクエストを拒否することに取り組みます。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.ce72ebac.min.js"></script>
+      
+    
+  </body>
+</html>

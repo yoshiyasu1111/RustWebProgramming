@@ -1,0 +1,1657 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../TechnicalRequirements/">
+      
+      
+        <link rel="next" href="../StructuringCode/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.0">
+    
+    
+      
+        <title>2.2 - Cargoによるソフトウェアプロジェクトの管理 - Rust Web Programming</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.402914a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+Japanese:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans Japanese";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cargo" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Rust Web Programming" class="md-header__button md-logo" aria-label="Rust Web Programming" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Rust Web Programming
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2.2 - Cargoによるソフトウェアプロジェクトの管理
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Rust Web Programming" class="md-nav__button md-logo" aria-label="Rust Web Programming" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Rust Web Programming
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        序文
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          1章 - Rust Web開発入門
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          1章 - Rust Web開発入門
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1_QuickIntroduction/" class="md-nav__link">
+        1 - Rust Web開発入門
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1_QuickIntroduction/TechnicalRequirements/" class="md-nav__link">
+        1.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1_QuickIntroduction/WhyIsRustRevolutionary/" class="md-nav__link">
+        1.2 - なぜRustは革命的なのか？
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          2章 - RustでWebアプリケーションをデザインする
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          2章 - RustでWebアプリケーションをデザインする
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        2 - RustでWebアプリケーションをデザインする
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TechnicalRequirements/" class="md-nav__link">
+        2.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          2.2 - Cargoによるソフトウェアプロジェクトの管理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        2.2 - Cargoによるソフトウェアプロジェクトの管理
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cargo" class="md-nav__link">
+    Cargoによるソフトウェアプロジェクトの管理
+  </a>
+  
+    <nav class="md-nav" aria-label="Cargoによるソフトウェアプロジェクトの管理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cargo_1" class="md-nav__link">
+    Cargoを使ったビルド
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cargo_2" class="md-nav__link">
+    Cargoでクレートを出荷する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cargo_3" class="md-nav__link">
+    Cargoでドキュメントを作成する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cargo_4" class="md-nav__link">
+    Cargoとの連携
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../StructuringCode/" class="md-nav__link">
+        2.3 - コードの構造化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../InteractingWithTheEnvironment/" class="md-nav__link">
+        2.4 - 環境との相互作用
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Summary/" class="md-nav__link">
+        2.5 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          3章 - HTTPリクエストの取り扱い
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          3章 - HTTPリクエストの取り扱い
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/" class="md-nav__link">
+        3 - HTTPリクエストの取り扱い
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/TechnicalRequirements/" class="md-nav__link">
+        3.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/IntroducingTheActixWebFramework/" class="md-nav__link">
+        3.2 - Actix Webフレームワークの紹介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/LaunchingABasicActixWebServer/" class="md-nav__link">
+        3.3 - 基本的なActix Webサーバーの立ち上げ
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/UnderstandingClosures/" class="md-nav__link">
+        3.4 - クロージャを理解する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/UnderstandingAsynchronousProgramming/" class="md-nav__link">
+        3.5 - 非同期プログラミングの理解
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/UnderstandingAsyncAndAwait/" class="md-nav__link">
+        3.6 - asyncとawaitを理解する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/ExploringAsyncAndAwaitWithWebProgramming/" class="md-nav__link">
+        3.7 - Webプログラミングでasyncとawaitを探求する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/ManagingViewsUsingTheActixWebFramework/" class="md-nav__link">
+        3.8 - Actix Webフレームワークを使用したビューの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/Summary/" class="md-nav__link">
+        3.9 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          4章 - HTTPリクエストの処理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          4章 - HTTPリクエストの処理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/" class="md-nav__link">
+        4 - HTTPリクエストの処理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/TechnicalRequirements/" class="md-nav__link">
+        4.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/GettingToKnowTheInitialSetupForFusingCode/" class="md-nav__link">
+        4.2 - コードを定着させるための初期設定について知る
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/PassingParametersIntoViews/" class="md-nav__link">
+        4.3 - ビューにパラメータを渡す
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/UsingMacrosForJSONSerialization/" class="md-nav__link">
+        4.4 - JSONシリアライズのためのマクロの使用
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/ExtractingDataFromViews/" class="md-nav__link">
+        4.5 - ビューからデータを抽出する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/Summary/" class="md-nav__link">
+        4.6 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          5章 - ブラウザでコンテンツを表示する
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          5章 - ブラウザでコンテンツを表示する
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/" class="md-nav__link">
+        5 - ブラウザでコンテンツを表示する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/TechnicalRequirements/" class="md-nav__link">
+        5.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/ServingHTMLCSSAndJavaScriptUsingRust/" class="md-nav__link">
+        5.2 - Rustを使ったHTML、CSS、JavaScriptのサービス提供
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/InjectingJavaScriptIntoHTML/" class="md-nav__link">
+        5.3 - HTMLにJavaScriptを注入する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/InjectingCSSIntoHTML/" class="md-nav__link">
+        5.4 - HTMLにCSSを組み込む
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/InheritingComponents/" class="md-nav__link">
+        5.5 - コンポーネントの継承
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/CreatingAReactApp/" class="md-nav__link">
+        5.6 - Reactアプリを作成する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/MakingAPICallsInReact/" class="md-nav__link">
+        5.7 - ReactでAPIを呼び出す
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/CreatingCustomComponentsInReact/" class="md-nav__link">
+        5.8 - Reactのカスタムコンポーネントの作成
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/LiftingCSSIntoReact/" class="md-nav__link">
+        5.9 - CSSをReactに持ち込む
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/ConvertingOurReactApplicationIntoADesktopApplication/" class="md-nav__link">
+        5.10 - Reactアプリケーションをデスクトップアプリケーションへ変換する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/Summary/" class="md-nav__link">
+        5.11 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          6章 - PostgreSQLによるデータ永続化
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          6章 - PostgreSQLによるデータ永続化
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/" class="md-nav__link">
+        6 - PostgreSQLによるデータ永続化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/TechnicalRequirements/" class="md-nav__link">
+        6.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/BuildingOurPostgreSQLDatabase/" class="md-nav__link">
+        6.2 - PostgreSQLデータベースの構築
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/ConnectingToPostgreSQLWithDiesel/" class="md-nav__link">
+        6.3 - DieselでPostgreSQLに接続する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/ConnectingOurAppToPostgreSQL/" class="md-nav__link">
+        6.4 - アプリをPostgreSQLに接続する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/InsertingIntoTheDatabase/" class="md-nav__link">
+        6.5 - データベースへの挿入
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/ConfiguringOurApplication/" class="md-nav__link">
+        6.6 - アプリケーションを構成する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/BuildingADatabaseConnectionPool/" class="md-nav__link">
+        6.7 - データベース接続プールの構築
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/Summary/" class="md-nav__link">
+        6.8 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          7章 - ユーザーセッションの管理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          7章 - ユーザーセッションの管理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/" class="md-nav__link">
+        7 - ユーザーセッションの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/TechnicalRequirements/" class="md-nav__link">
+        7.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/CreatingOurUserModel/" class="md-nav__link">
+        7.2 - ユーザーモデルを作成する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/AuthenticatingOurUsers/" class="md-nav__link">
+        7.3 - ユーザーを認証する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/ManagingUserSessions/" class="md-nav__link">
+        7.4 - ユーザーセッションの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/CleaningUpAuthenticationRequirements/" class="md-nav__link">
+        7.5 - 認証要件のクリーンアップ
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/ConfiguringExpirationOfAuthTokens/" class="md-nav__link">
+        7.6 - 認証トークンの有効期限を設定する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/AddingAuthenticationIntoOurFrontend/" class="md-nav__link">
+        7.7 - フロントエンドに認証を追加する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/Summary/" class="md-nav__link">
+        7.8 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cargo" class="md-nav__link">
+    Cargoによるソフトウェアプロジェクトの管理
+  </a>
+  
+    <nav class="md-nav" aria-label="Cargoによるソフトウェアプロジェクトの管理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cargo_1" class="md-nav__link">
+    Cargoを使ったビルド
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cargo_2" class="md-nav__link">
+    Cargoでクレートを出荷する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cargo_3" class="md-nav__link">
+    Cargoでドキュメントを作成する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cargo_4" class="md-nav__link">
+    Cargoとの連携
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>2.2 - Cargoによるソフトウェアプロジェクトの管理</h1>
+
+<h2 id="cargo">Cargoによるソフトウェアプロジェクトの管理</h2>
+<p>Cargoを使ってプログラムの構造化を始める前に、基本的な単一ファイルのアプリケーションを構築する必要があります。そのためには、まずローカルディレクトリにhello_world.rsというファイルを作成する必要があります。拡張子.rsは、そのファイルがRustファイルであることを表しています。正直なところ、拡張子が何であるかは重要ではありません。そのファイルに実行可能なRustコードが書かれていれば、コンパイラは何の問題もなくコンパイルして実行します。しかし、拡張子が異なると、他の開発者やコード編集者を混乱させたり、他のRustファイルからコードをインポートする際に問題が発生する可能性があります。そのため、Rustファイルの命名には.rsを使用するのがベストです。hello_world.rsファイルの内部には、次のようなコードがあります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;hello world&quot;</span><span class="p">);</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">}</span>
+</code></pre></div>
+<p>これは、前章の最初のコードブロックと何ら変わりはありません。さて、hello_world.rsファイルにエントリポイントを定義したので、次のコマンドでファイルをコンパイルすることができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>rustc<span class="w"> </span>hello_world.rs
+</code></pre></div>
+<p>コンパイルが終了すると、同じディレクトリに実行可能なバイナリファイルが作成されます。Windows上でコンパイルした場合、以下のコマンドでバイナリを実行することができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>.<span class="se">\h</span>ello_world.exe
+</code></pre></div>
+<p>LinuxやmacOSでコンパイルした場合、以下のコマンドで実行できます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>./hello_world
+</code></pre></div>
+<p>単純なhello worldの例しか作っていないので、hello worldはただプリントアウトされるだけです。この方法は、1つのファイルで簡単なアプリケーションを構築する場合には便利ですが、複数のファイルにまたがるプログラムを管理する場合には推奨されません。サードパーティのモジュールに依存する場合にもお勧めできません。そこで、Cargoの出番です。Cargoは、実行、テスト、ドキュメント作成、ビルド/コンパイル、サードパーティ製モジュールの依存関係など、すべてをいくつかの簡単なコマンドですぐに管理します。この章では、これらのコマンドについて説明します。hello worldの例を実行したときに見たところ、コードを実行する前にコンパイルする必要があります。そこで、次のセクションに進み、Cargoを使用して基本的なアプリケーションを構築してみましょう。</p>
+<h3 id="cargo_1">Cargoを使ったビルド</h3>
+<p>Cargoを使ったビルドは簡単です。プロジェクトをビルドしたいディレクトリに移動して、以下のコマンドを実行するだけです。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>cargo<span class="w"> </span>new<span class="w"> </span>web_app
+</code></pre></div>
+<p>先のコマンドで、基本的なCargo Rustプロジェクトが構築されます。このアプリケーションを探索すると、次のような構造になっていることがわかります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>└── web_app
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    ├── Cargo.toml
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    └── src
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>         └── main.rs
+</code></pre></div>
+<p>Rustファイルは1つだけで、これはsrcディレクトリに収められているmain.rsファイルであることがわかります。main.rsファイルを開くと、これは前節で作ったファイルと同じであることがわかります。これは、デフォルトのコードがコンソールにhello worldをプリントアウトするエントリーポイントです。プロジェクトの依存関係やメタデータは、Cargo.tomlファイルに定義されています。プログラムを実行したい場合は、main.rsファイルに移動してrustcを実行する必要はありません。 代わりに、Cargoを使用して、以下のコマンドで実行することができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>cargo<span class="w"> </span>run
+</code></pre></div>
+<p>このようにすると、プロジェクトがコンパイルされて実行され、次のようなプリントアウトが表示されます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>  Compiling web_app v0.1.0 (/Users/maxwellflitton/Documents/
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>   github/books/Rust-Web_Programming-two/chapter02/web_app)
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    Finished dev [unoptimized + debuginfo] target(s) in 0.15s
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>     Running `target/debug/web_app`
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>hello world
+</code></pre></div>
+<p>ベースディレクトリが違うので、プリントアウトは少し違うでしょう。一番下にhello worldと表示されますが、これは私たちが期待するものです。また、プリントアウトには、コンパイルが最適化されていないこと、target/debug/web_appで実行されていることが記載されていることが確認できます。バイナリが保存されている場所なので、前のセクションで行ったのと同じように、target/debug/web_appバイナリに直接移動して実行することができます。targetディレクトリには、プログラムをコンパイルしたり、実行したり、ドキュメントを作成したりするためのファイルが格納されています。GitHubのリポジトリにコードを添付する場合は、.gitignoreファイルにターゲット・ディレクトリを記述して、GitHubに無視されるようにする必要があります。今、私たちは最適化されていないバージョンを実行しています。つまり、処理速度は遅いですが、コンパイルは速いです。これは、開発中に何度もコンパイルすることになるため、理にかなっています。しかし、最適化されたバージョンを実行したい場合は、次のコマンドを使用します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>cargo<span class="w"> </span>run<span class="w"> </span>--release
+</code></pre></div>
+<p>先のコマンドで、次のようなプリントアウトが得られました。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="w">    </span>Finished<span class="w"> </span>release<span class="w"> </span><span class="o">[</span>optimized<span class="o">]</span><span class="w"> </span>target<span class="o">(</span>s<span class="o">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">2</span>.63s
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">     </span>Running<span class="w"> </span><span class="sb">`</span>target/release/web_app<span class="sb">`</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>hello<span class="w"> </span>world
+</code></pre></div>
+<p>先の出力では、最適化されたバイナリがtarget/release/web_appのパスにあることがわかります。これで基本的なビルドは完了したので、次はCargoを使ってサードパーティのクレートを利用することができます。</p>
+<h3 id="cargo_2">Cargoでクレートを出荷する</h3>
+<p>サードパーティライブラリはクレートと呼ばれます。Cargoでこれらを追加し、管理するのは簡単です。このセクションでは、https://rust-random.github.io/rand/rand/index.html にある rand crate を利用して、このプロセスを探ります。このクレートのドキュメントは、構造体、trait、およびモジュールへのリンクが明確でよく構成されていることに留意する必要があります。これは、randクレートそのものを反映しているわけではありません。これは、次のセクションで取り上げるRustの標準的なドキュメントです。このクレートをプロジェクトで使用するために、Cargo.tomlファイルを開き、以下のように[dependencies]セクションの下にrand crateを追加しています。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">[dependencies]</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">rand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0.7.3&quot;</span>
+</code></pre></div>
+<p>依存関係の定義ができたので、rand crateを使って乱数生成器を作ってみましょう。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">use</span><span class="w"> </span><span class="n">rand</span>::<span class="n">prelude</span>::<span class="o">*</span><span class="p">;</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="k">fn</span> <span class="nf">generate_float</span><span class="p">(</span><span class="n">generator</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="n">ThreadRng</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">placeholder</span>: <span class="kt">f64</span> <span class="o">=</span><span class="w"> </span><span class="n">generator</span><span class="p">.</span><span class="n">gen</span><span class="p">();</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">placeholder</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">10.0</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="p">}</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">rng</span>: <span class="nc">ThreadRng</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rand</span>::<span class="n">thread_rng</span><span class="p">();</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">random_number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">generate_float</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">rng</span><span class="p">);</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">random_number</span><span class="p">);</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="p">}</span>
+</code></pre></div>
+<p>先のコードでは、generate_floatという関数を定義し、クレートを使って0から10までのfloatを生成して返しています。この関数は、0から10までの浮動小数点を生成して返すもので、これを実行すると、その数値を表示します。randクレートの実装は、randのドキュメントで扱われています。このuse文はrand crateをインポートしています。randクレートを使ってfloatを生成する場合、ドキュメントではrand::preludeモジュールからインポート(*)するように指示されており、crateドキュメント(https://rust-random.github.io/rand/rand/prelude/index.html)にあるように、共通項目のインポートが簡略化されています。</p>
+<p>ThreadRng structは、0から1の間のf64値を生成する乱数生成器です。rand crate documentation https://rust-random.github.io/rand/rand/rngs/struct.ThreadRng.html で詳しく解説されています。</p>
+<p>さて、次はドキュメントの威力を見てみましょう。randドキュメントの紹介ページを数回クリックするだけで、デモで使用した構造体や関数の宣言を掘り下げることができます。これでコードがビルドされたので、cargo run コマンドでプログラムを実行することができます。Cargoがコンパイルしている間、randクレートからコードを取り出し、それをバイナリにコンパイルしています。また、cargo.lock ファイルが存在することも確認できました。cargo.tomlは依存関係を記述するためのものですが、cargo.lockはCargoによって生成され、依存関係の正確な情報を含んでいるので、自分で編集する必要はありません。このようなシームレスな機能と使いやすいドキュメントの組み合わせは、Rustが言語の品質だけでなく、開発エコシステムを介して限界まで開発プロセスを向上させることを示します。しかし、このようなドキュメンテーションによる利益は、純粋にサードパーティのライブラリに依存しているわけではなく、私たち自身のドキュメントを自動生成することも可能です。</p>
+<h3 id="cargo_3">Cargoでドキュメントを作成する</h3>
+<p>Rustのような新しい言語を選んで開発するメリットは、スピードと安全性だけではありません。ソフトウェアエンジニアリングのコミュニティは、長年にわたって学び、成長し続けています。優れたドキュメントのような単純なことが、プロジェクトの成否を左右することもあるのです。これを実証するために、以下のコードでRustファイル内にMarkdown言語を定義することができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="sd">/// This function generates a float number using a number</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="sd">/// generator passed into the function.</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="sd">///</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="sd">/// # Arguments</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="sd">/// * generator (&amp;mut ThreadRng): the random number</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="sd">/// generator to generate the random number</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="sd">///</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="sd">/// # Returns</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="sd">/// (f64): random number between 0 -&gt; 10</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="k">fn</span> <span class="nf">generate_float</span><span class="p">(</span><span class="n">generator</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="n">ThreadRng</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">placeholder</span>: <span class="kt">f64</span> <span class="o">=</span><span class="w"> </span><span class="n">generator</span><span class="p">.</span><span class="n">gen</span><span class="p">();</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">placeholder</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">10.0</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="p">}</span>
+</code></pre></div>
+<p>先のコードでは、Markdownを///マーカーで表記しています。これは、コードを見た他の開発者にこの関数が何をするものかを伝えることと、自動生成でMarkdownをレンダリングすることの2つを目的としています。documentコマンドを実行する前に、基本的なユーザー構造体と基本的なユーザー特性を定義して文書化し、これらがどのように文書化されるかを示すこともできます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="sd">/// This trait defines the struct to be a user.</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="k">trait</span><span class="w"> </span><span class="n">IsUser</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="sd">/// This function proclaims that the struct is a user.</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="sd">///</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="sd">/// # Arguments</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="sd">/// None</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span><span class="sd">///</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">    </span><span class="sd">/// # Returns</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">    </span><span class="sd">/// (bool) true if user, false if not</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">    </span><span class="k">fn</span> <span class="nf">is_user</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="p">}</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="sd">/// This struct defines a user</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="sd">///</span>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="sd">/// # Attributes</span>
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="sd">/// * name (String): the name of the user</span>
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="sd">/// * age (i8): the age of the user</span>
+<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="k">struct</span> <span class="nc">User</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="w">    </span><span class="n">name</span>: <span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a><span class="w">    </span><span class="n">age</span>: <span class="kt">i8</span>
+<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a><span class="p">}</span>
+</code></pre></div>
+<p>これで、さまざまな構造をドキュメント化できたので、次のコマンドで自動ドキュメント化処理を実行することができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>cargo<span class="w"> </span>doc<span class="w"> </span>--open
+</code></pre></div>
+<p>ドキュメントがrand crateと同じようにレンダリングされていることがわかります。</p>
+<p>図2.1 - ウェブアプリのドキュメントビュー</p>
+<p>先のスクリーンショットでは、web_appがクレートであることがわかります。また、randクレートのドキュメントが関与していることもわかります（スクリーンショットの左下を見ると、web_appクレートのドキュメントのすぐ上にrandクレートのドキュメントが表示されています）。User構造体をクリックすると、次の図のように、構造体の宣言、属性のために書いたMarkdown、およびtraitの意味合いが表示されます。</p>
+<p>図2.2 - structのドキュメント</p>
+<p>なお、本書の今後のセクションでは、可読性を維持するために、コードスニペットにMarkdownを含めない予定です。ただし、Markdownで文書化されたコードは、本書のGitHubレポで提供されます。さて、十分に文書化され、実行可能なCargoプロジェクトができたので、コンテキストに応じて異なる設定を実行できるように、パラメータを渡すことができるようにする必要があります。</p>
+<h3 id="cargo_4">Cargoとの連携</h3>
+<p>プログラムを実行し、サードパーティモジュールを使用できるようになったので、コマンドライン入力を通じてRustプログラムと対話することができるようになりました。プログラムがコンテキストに応じた柔軟性を持つようにするには、プログラムにパラメータを渡すことができ、プログラムが実行されているパラメータを追跡できるようにする必要があります。これは、std（標準ライブラリ）識別子を使用して行うことができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">env</span><span class="p">;</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">args</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="nb">String</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">env</span>::<span class="n">args</span><span class="p">().</span><span class="n">collect</span><span class="p">();</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p">);</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="p">}</span>
+</code></pre></div>
+<p>先のコードでは、プログラムに渡された引数をベクトルに集め、デバッグモードで引数を出力していることがわかります。次のコマンドを実行してみましょう。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>cargo<span class="w"> </span>run<span class="w"> </span>one<span class="w"> </span>two<span class="w"> </span>three
+</code></pre></div>
+<p>先のコマンドを実行すると、次のようなプリントアウトが表示されます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>[&quot;target/debug/interacting_with_cargo&quot;, &quot;one&quot;, &quot;two&quot;, &quot;three&quot;]
+</code></pre></div>
+<p>ここで、argsベクトルには、私たちが渡した引数が含まれていることがわかります。他の多くの言語でも、コマンドラインからプログラムに渡される引数を受け入れるので、これは驚くべきことではありません。また、バイナリへのパスも含まれていることに注意しなければなりません。ここでは、interacting_with_cargoという別のプロジェクトを使っているため、target/debug/interacting_with_cargoというパスがあることも強調しておきます。また、コマンドライン引数から、デバッグモードで実行されていることがわかります。では、次のコマンドでプログラムのリリース版を実行してみましょう。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>cargo<span class="w"> </span>run<span class="w"> </span>--release<span class="w"> </span>one<span class="w"> </span>two<span class="w"> </span>three
+</code></pre></div>
+<p>次のようなプリントを受け取ることになります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>[&quot;target/release/interacting_with_cargo&quot;, &quot;one&quot;, &quot;two&quot;, &quot;three&quot;]
+</code></pre></div>
+<p>先の出力から、--releaseは我々のベクトルにはないことがわかる。しかし、このことは、私たちが遊ぶための余分な機能を与えてくれる。例えば、コンパイルの種類によって異なるプロセスを実行したい場合がある。これは、次のようなコードで簡単に実現することができる。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">args</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="nb">String</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">env</span>::<span class="n">args</span><span class="p">().</span><span class="n">collect</span><span class="p">();</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">path</span>: <span class="kp">&amp;</span><span class="kt">str</span> <span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="k">if</span><span class="w"> </span><span class="n">path</span><span class="p">.</span><span class="n">contains</span><span class="p">(</span><span class="s">&quot;/debug/&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;Debug is running&quot;</span><span class="p">);</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="p">}</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">path</span><span class="p">.</span><span class="n">contains</span><span class="p">(</span><span class="s">&quot;/release/&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;release is running&quot;</span><span class="p">);</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="p">}</span>
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="w">    </span><span class="fm">panic!</span><span class="p">(</span><span class="s">&quot;The setting is neither debug or release&quot;</span><span class="p">);</span>
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="p">}</span>
+</code></pre></div>
+<p>しかし、先のシンプルな解決策は、パッチワークのようなものです。抽出するパスは、Cargoコマンドを実行している場合のみ一貫性があります。Cargoコマンドはビルド、コンパイル、ドキュメント作成には最適ですが、本番でそれらのファイルをすべて持ち運ぶのは意味がありません。実際、静的なバイナリを抽出して、それを完全に単体でDockerコンテナに包み、バイナリを直接実行することで、Dockerイメージのサイズを1.5GBから200MBに削減できるという利点があります。つまり、これは一見手っ取り早いように見えますが、私たちのアプリケーションをデプロイする際にコードを壊してしまうことにつながるのです。したがって、これが本番に到達してあなたが知らないということがないように、最後にパニックマクロを入れることが不可欠です。</p>
+<p>これまでは、基本的なコマンドを渡していましたが、これでは役に立ちませんし、拡張性もありません。また、ユーザー向けのヘルプガイドを実装するために、多くの定型的なコードを書かなければならないでしょう。コマンドラインインターフェイスを拡張するために、プログラムに渡される引数を処理するためにclap crateに依存することができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">[dependencies]</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="n">clap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;3.0.14&quot;</span>
+</code></pre></div>
+<p>コマンドラインインタフェースの理解を深めるために、いくつかのコマンドを取り込み、それをプリントアウトするだけのおもちゃのアプリケーションを開発することができます。そのためには、main.rsファイルの中でclap crateから必要なものを以下のコードでインポートする必要があります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="k">use</span><span class="w"> </span><span class="n">clap</span>::<span class="p">{</span><span class="n">Arg</span><span class="p">,</span><span class="w"> </span><span class="n">App</span><span class="p">};</span>
+</code></pre></div>
+<p>さて、次はアプリケーションの定義に移ります。</p>
+<ol>
+<li>私たちのアプリケーションは、次のコードでメイン関数にアプリケーションに関するメタデータを収容します。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">App</span>::<span class="n">new</span><span class="p">(</span><span class="s">&quot;booking&quot;</span><span class="p">)</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">        </span><span class="p">.</span><span class="n">version</span><span class="p">(</span><span class="s">&quot;1.0&quot;</span><span class="p">)</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="w">        </span><span class="p">.</span><span class="n">about</span><span class="p">(</span><span class="s">&quot;Books in a user&quot;</span><span class="p">)</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="w">        </span><span class="p">.</span><span class="n">author</span><span class="p">(</span><span class="s">&quot;Maxwell Flitton&quot;</span><span class="p">);</span>
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="w">    </span><span class="o">..</span><span class="p">.</span>
+</code></pre></div>
+<p>clapのドキュメントを見ると、App structに直接引数をバインドすることができます。しかし、これは醜く、きついバインドになる可能性があります。その代わりに、次のステップで別々に定義することにします。</p>
+<ol>
+<li>今回のおもちゃアプリでは、姓、名、年齢を取り込んでおり、以下のように定義することができる。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">first_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arg</span>::<span class="n">new</span><span class="p">(</span><span class="s">&quot;first name&quot;</span><span class="p">)</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="w">            </span><span class="p">.</span><span class="n">long</span><span class="p">(</span><span class="s">&quot;f&quot;</span><span class="p">)</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="w">            </span><span class="p">.</span><span class="n">takes_value</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="w">            </span><span class="p">.</span><span class="n">help</span><span class="p">(</span><span class="s">&quot;first name of user&quot;</span><span class="p">)</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="w">            </span><span class="p">.</span><span class="n">required</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arg</span>::<span class="n">new</span><span class="p">(</span><span class="s">&quot;last name&quot;</span><span class="p">)</span>
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="w">            </span><span class="p">.</span><span class="n">long</span><span class="p">(</span><span class="s">&quot;l&quot;</span><span class="p">)</span>
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="w">            </span><span class="p">.</span><span class="n">takes_value</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="w">            </span><span class="p">.</span><span class="n">help</span><span class="p">(</span><span class="s">&quot;first name of user&quot;</span><span class="p">)</span>
+<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a><span class="w">            </span><span class="p">.</span><span class="n">required</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arg</span>::<span class="n">new</span><span class="p">(</span><span class="s">&quot;age&quot;</span><span class="p">)</span>
+<a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a><span class="w">            </span><span class="p">.</span><span class="n">long</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">)</span>
+<a id="__codelineno-24-13" name="__codelineno-24-13" href="#__codelineno-24-13"></a><span class="w">            </span><span class="p">.</span><span class="n">takes_value</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+<a id="__codelineno-24-14" name="__codelineno-24-14" href="#__codelineno-24-14"></a><span class="w">            </span><span class="p">.</span><span class="n">help</span><span class="p">(</span><span class="s">&quot;age of the user&quot;</span><span class="p">)</span>
+<a id="__codelineno-24-15" name="__codelineno-24-15" href="#__codelineno-24-15"></a><span class="w">            </span><span class="p">.</span><span class="n">required</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+</code></pre></div>
+<p>引数を積み重ね続けることができることがわかります。今はまだ、何にも束縛されていません。さて、次のステップでは、アプリケーションにバインドして引数を渡せるようにします。</p>
+<ol>
+<li>入力のバインド、取得、解析は、以下のコードで実現できます。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">app</span><span class="p">.</span><span class="n">arg</span><span class="p">(</span><span class="n">first_name</span><span class="p">).</span><span class="n">arg</span><span class="p">(</span><span class="n">last_name</span><span class="p">).</span><span class="n">arg</span><span class="p">(</span><span class="n">age</span><span class="p">);</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">matches</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">app</span><span class="p">.</span><span class="n">get_matches</span><span class="p">();</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matches</span><span class="p">.</span><span class="n">value_of</span><span class="p">(</span><span class="s">&quot;first name&quot;</span><span class="p">)</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="w">            </span><span class="p">.</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;First name is required&quot;</span><span class="p">);</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">surname</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matches</span><span class="p">.</span><span class="n">value_of</span><span class="p">(</span><span class="s">&quot;last name&quot;</span><span class="p">)</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="w">            </span><span class="p">.</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;Surname is required&quot;</span><span class="p">);</span>
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">age</span>: <span class="kt">i8</span> <span class="o">=</span><span class="w"> </span><span class="n">matches</span><span class="p">.</span><span class="n">value_of</span><span class="p">(</span><span class="s">&quot;age&quot;</span><span class="p">)</span>
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="w">            </span><span class="p">.</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;Age is required&quot;</span><span class="p">).</span><span class="n">parse</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span>
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">);</span>
+<a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">surname</span><span class="p">);</span>
+<a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">);</span>
+<a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a><span class="p">}</span>
+</code></pre></div>
+<p>これで、コマンドライン引数の渡し方の実用例ができたので、次のコマンドを実行して、アプリケーションの表示方法を確認することができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>cargo<span class="w"> </span>run<span class="w"> </span>--<span class="w"> </span>--help<span class="w">  </span>
+</code></pre></div>
+<p>真ん中の--before --helpは、Cargoに対して、--の後の引数をすべてclapに渡すように指示します。先のコマンドで、次のようなプリントアウトが得られます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>booking 1.0
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>Maxwell Flitton
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>Books in a user
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>USAGE:
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>    interacting_with_cargo --f &lt;first name&gt; --l &lt;last name&gt; 
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>                           --a &lt;age&gt;
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>OPTIONS:
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>        --a &lt;age&gt;           age of the user
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>        --f &lt;first name&gt;    first name of user
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>    -h, --help              Print help information
+<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>        --l &lt;last name&gt;     first name of user
+<a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a>    -V, --version           Print version information
+</code></pre></div>
+<p>先の出力では、コンパイルしたバイナリファイルを直接操作する方法を見ることができます。また、素敵なヘルプメニューも用意されています。Cargoと対話するためには、次のコマンドを実行する必要があります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>cargo<span class="w"> </span>run<span class="w"> </span>--<span class="w"> </span>--f<span class="w"> </span>first<span class="w"> </span>--l<span class="w"> </span>second<span class="w"> </span>--a<span class="w"> </span><span class="m">32</span>
+</code></pre></div>
+<p>先のコマンドで、次のようなプリントアウトがされます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>&quot;first&quot;
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>&quot;second&quot;
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>32
+</code></pre></div>
+<p>2つの文字列と1つの整数があるので、パージングがうまくいっていることがわかります。clapのようなクレートが有用な理由は、基本的に自己文書化されていることです。開発者はコードを見て、どのような引数が受け取られているのかを知り、その周りのメタデータを見ることができます。ユーザーは、helpパラメータを渡すだけで、入力に関するヘルプを得ることができます。このアプローチは、実行するコードに埋め込まれるため、ドキュメントが古くなるリスクを減らすことができます。コマンドライン引数を受け取る場合は、clapのようなクレートを使用することをお勧めします。さて、コマンドライン・インターフェースを構造化してスケーリングできるようにすることを検討しましたが、次のセクションでは、複数のファイルにわたるコードを構造化してスケーリングできるようにすることを検討します。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.ce72ebac.min.js"></script>
+      
+    
+  </body>
+</html>

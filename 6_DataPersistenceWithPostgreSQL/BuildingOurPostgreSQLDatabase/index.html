@@ -1,0 +1,1639 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../TechnicalRequirements/">
+      
+      
+        <link rel="next" href="../ConnectingToPostgreSQLWithDiesel/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.0">
+    
+    
+      
+        <title>6.2 - PostgreSQLデータベースの構築 - Rust Web Programming</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.402914a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+Japanese:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans Japanese";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#postgresql" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Rust Web Programming" class="md-header__button md-logo" aria-label="Rust Web Programming" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Rust Web Programming
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              6.2 - PostgreSQLデータベースの構築
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Rust Web Programming" class="md-nav__button md-logo" aria-label="Rust Web Programming" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Rust Web Programming
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        序文
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          1章 - Rust Web開発入門
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          1章 - Rust Web開発入門
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1_QuickIntroduction/" class="md-nav__link">
+        1 - Rust Web開発入門
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1_QuickIntroduction/TechnicalRequirements/" class="md-nav__link">
+        1.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1_QuickIntroduction/WhyIsRustRevolutionary/" class="md-nav__link">
+        1.2 - なぜRustは革命的なのか？
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          2章 - RustでWebアプリケーションをデザインする
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          2章 - RustでWebアプリケーションをデザインする
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/" class="md-nav__link">
+        2 - RustでWebアプリケーションをデザインする
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/TechnicalRequirements/" class="md-nav__link">
+        2.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/ManagingASoftwareProjectWithCargo/" class="md-nav__link">
+        2.2 - Cargoによるソフトウェアプロジェクトの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/StructuringCode/" class="md-nav__link">
+        2.3 - コードの構造化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/InteractingWithTheEnvironment/" class="md-nav__link">
+        2.4 - 環境との相互作用
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/Summary/" class="md-nav__link">
+        2.5 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          3章 - HTTPリクエストの取り扱い
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          3章 - HTTPリクエストの取り扱い
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/" class="md-nav__link">
+        3 - HTTPリクエストの取り扱い
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/TechnicalRequirements/" class="md-nav__link">
+        3.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/IntroducingTheActixWebFramework/" class="md-nav__link">
+        3.2 - Actix Webフレームワークの紹介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/LaunchingABasicActixWebServer/" class="md-nav__link">
+        3.3 - 基本的なActix Webサーバーの立ち上げ
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/UnderstandingClosures/" class="md-nav__link">
+        3.4 - クロージャを理解する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/UnderstandingAsynchronousProgramming/" class="md-nav__link">
+        3.5 - 非同期プログラミングの理解
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/UnderstandingAsyncAndAwait/" class="md-nav__link">
+        3.6 - asyncとawaitを理解する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/ExploringAsyncAndAwaitWithWebProgramming/" class="md-nav__link">
+        3.7 - Webプログラミングでasyncとawaitを探求する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/ManagingViewsUsingTheActixWebFramework/" class="md-nav__link">
+        3.8 - Actix Webフレームワークを使用したビューの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/Summary/" class="md-nav__link">
+        3.9 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          4章 - HTTPリクエストの処理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          4章 - HTTPリクエストの処理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/" class="md-nav__link">
+        4 - HTTPリクエストの処理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/TechnicalRequirements/" class="md-nav__link">
+        4.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/GettingToKnowTheInitialSetupForFusingCode/" class="md-nav__link">
+        4.2 - コードを定着させるための初期設定について知る
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/PassingParametersIntoViews/" class="md-nav__link">
+        4.3 - ビューにパラメータを渡す
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/UsingMacrosForJSONSerialization/" class="md-nav__link">
+        4.4 - JSONシリアライズのためのマクロの使用
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/ExtractingDataFromViews/" class="md-nav__link">
+        4.5 - ビューからデータを抽出する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/Summary/" class="md-nav__link">
+        4.6 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          5章 - ブラウザでコンテンツを表示する
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          5章 - ブラウザでコンテンツを表示する
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/" class="md-nav__link">
+        5 - ブラウザでコンテンツを表示する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/TechnicalRequirements/" class="md-nav__link">
+        5.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/ServingHTMLCSSAndJavaScriptUsingRust/" class="md-nav__link">
+        5.2 - Rustを使ったHTML、CSS、JavaScriptのサービス提供
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/InjectingJavaScriptIntoHTML/" class="md-nav__link">
+        5.3 - HTMLにJavaScriptを注入する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/InjectingCSSIntoHTML/" class="md-nav__link">
+        5.4 - HTMLにCSSを組み込む
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/InheritingComponents/" class="md-nav__link">
+        5.5 - コンポーネントの継承
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/CreatingAReactApp/" class="md-nav__link">
+        5.6 - Reactアプリを作成する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/MakingAPICallsInReact/" class="md-nav__link">
+        5.7 - ReactでAPIを呼び出す
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/CreatingCustomComponentsInReact/" class="md-nav__link">
+        5.8 - Reactのカスタムコンポーネントの作成
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/LiftingCSSIntoReact/" class="md-nav__link">
+        5.9 - CSSをReactに持ち込む
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/ConvertingOurReactApplicationIntoADesktopApplication/" class="md-nav__link">
+        5.10 - Reactアプリケーションをデスクトップアプリケーションへ変換する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/Summary/" class="md-nav__link">
+        5.11 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          6章 - PostgreSQLによるデータ永続化
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          6章 - PostgreSQLによるデータ永続化
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        6 - PostgreSQLによるデータ永続化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TechnicalRequirements/" class="md-nav__link">
+        6.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          6.2 - PostgreSQLデータベースの構築
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        6.2 - PostgreSQLデータベースの構築
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql" class="md-nav__link">
+    PostgreSQLデータベースの構築
+  </a>
+  
+    <nav class="md-nav" aria-label="PostgreSQLデータベースの構築">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    きちんとしたデータベースを使うべき理由
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    なぜDockerを使うのか？
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker_1" class="md-nav__link">
+    Dockerを使ってデータベースを動かす方法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker_2" class="md-nav__link">
+    Dockerでデータベースを実行する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker_3" class="md-nav__link">
+    Dockerでルーティングとポートを探索する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bashdocker" class="md-nav__link">
+    BashスクリプトでDockerをバックグラウンドで実行する
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ConnectingToPostgreSQLWithDiesel/" class="md-nav__link">
+        6.3 - DieselでPostgreSQLに接続する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ConnectingOurAppToPostgreSQL/" class="md-nav__link">
+        6.4 - アプリをPostgreSQLに接続する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../InsertingIntoTheDatabase/" class="md-nav__link">
+        6.5 - データベースへの挿入
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ConfiguringOurApplication/" class="md-nav__link">
+        6.6 - アプリケーションを構成する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BuildingADatabaseConnectionPool/" class="md-nav__link">
+        6.7 - データベース接続プールの構築
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Summary/" class="md-nav__link">
+        6.8 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          7章 - ユーザーセッションの管理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          7章 - ユーザーセッションの管理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/" class="md-nav__link">
+        7 - ユーザーセッションの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/TechnicalRequirements/" class="md-nav__link">
+        7.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/CreatingOurUserModel/" class="md-nav__link">
+        7.2 - ユーザーモデルを作成する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/AuthenticatingOurUsers/" class="md-nav__link">
+        7.3 - ユーザーを認証する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/ManagingUserSessions/" class="md-nav__link">
+        7.4 - ユーザーセッションの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/CleaningUpAuthenticationRequirements/" class="md-nav__link">
+        7.5 - 認証要件のクリーンアップ
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/ConfiguringExpirationOfAuthTokens/" class="md-nav__link">
+        7.6 - 認証トークンの有効期限を設定する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/AddingAuthenticationIntoOurFrontend/" class="md-nav__link">
+        7.7 - フロントエンドに認証を追加する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/Summary/" class="md-nav__link">
+        7.8 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql" class="md-nav__link">
+    PostgreSQLデータベースの構築
+  </a>
+  
+    <nav class="md-nav" aria-label="PostgreSQLデータベースの構築">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    きちんとしたデータベースを使うべき理由
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    なぜDockerを使うのか？
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker_1" class="md-nav__link">
+    Dockerを使ってデータベースを動かす方法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker_2" class="md-nav__link">
+    Dockerでデータベースを実行する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker_3" class="md-nav__link">
+    Dockerでルーティングとポートを探索する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bashdocker" class="md-nav__link">
+    BashスクリプトでDockerをバックグラウンドで実行する
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>6.2 - PostgreSQLデータベースの構築</h1>
+
+<h2 id="postgresql">PostgreSQLデータベースの構築</h2>
+<p>本書のこの時点まで、私たちはJSONファイルを使用してToDo項目を保存してきました。これは、今のところうまく機能しています。実際、本書の残りの部分でも、JSONファイルを使用してタスクを完了することができない理由はありません。しかし、本番のプロジェクトでJSONファイルを使用する場合、いくつかの欠点に出くわすことになります。</p>
+<h3 id="_1">きちんとしたデータベースを使うべき理由</h3>
+<p>JSONファイルへの読み書きが増えると、同時並行性の問題やデータの破損に直面する可能性があります。また、データの種類をチェックすることもできません。したがって、別の開発者がJSONファイルに異なるデータを書き込む関数を書いても、何も支障はない。</p>
+<p>また、マイグレーションにも問題があります。ToDoアイテムにタイムスタンプを追加したい場合、これはJSONファイルに挿入する新しいToDoアイテムにのみ影響します。そのため、ToDo項目の中にはタイムスタンプがあるものとないものがあり、アプリにバグをもたらすことになります。また、JSONファイルには、フィルタリングの面でも限界があります。</p>
+<p>現在は、データファイル全体を読み込み、データセット全体の項目を変更し、データセット全体をJSONファイルに書き込むだけです。これでは効率的とは言えず、拡張性もありません。また、これらのToDo項目を別のデータモデルのようなユーザーにリンクさせることも阻害される。さらに、今はステータスを使った検索しかできない。もし、ユーザーテーブルとToDoデータベースをリンクしたSQLデータベースを使えば、ユーザー、ステータス、タイトルに基づいてToDoアイテムをフィルタリングすることができます。また、これらの組み合わせも可能です。データベースを実行する際には、Dockerを使用します。では、なぜDockerを使う必要があるのでしょうか？</p>
+<h3 id="docker">なぜDockerを使うのか？</h3>
+<p>なぜDockerを使うのかを理解するために、まずDockerが何なのかを理解する必要があります。Dockerは基本的に仮想マシンのように動作するコンテナを持っていますが、より具体的で粒度の高い方法で動作します。Dockerコンテナは、単一のアプリケーションと、そのアプリケーションのすべての依存関係を分離します。アプリケーションはDockerコンテナの内部で実行されます。Dockerコンテナは、互いに通信することができます。Dockerコンテナは単一の共通オペレーティングシステム（OS）を共有するため、互いに、またOS全体から区分けされており、Dockerアプリケーションは仮想マシンと比較してより少ないメモリを使用することになります。Dockerコンテナのおかげで、私たちはアプリケーションの移植性を高めることができます。Dockerコンテナが自分のマシンで動作していれば、Dockerを搭載した別のマシンでも動作します。また、アプリケーションをパッケージ化することもできます。つまり、アプリケーションを実行するために特別に必要なパッケージは、OSレベルの依存関係も含めて、別途インストールする必要がありません。その結果、Dockerを使えば、サーバーやデータベースをローカルマシンでシミュレートできるため、Web開発において大きな柔軟性を発揮します。</p>
+<h3 id="docker_1">Dockerを使ってデータベースを動かす方法</h3>
+<p>このようなことを考えると、SQLデータベースをセットアップして実行するために必要な余分なステップを踏むことは理にかなっていると言えます。そのために、コンテナの作成と利用を支援するツールであるDockerを使用することにします。コンテナ自体はLinuxの技術で、アプリケーションとその実行環境全体をパッケージ化して分離するものです。コンテナは技術的には分離されたファイルシステムですが、本章で行っていることを視覚化するために、ミニ軽量仮想マシンと考えることができます。これらのコンテナは、Docker Hubからダウンロードできるイメージから作られています。次の図に見られるように、コンテナをスピンアップする前に、これらのイメージに独自のコードを挿入することができます。</p>
+<p>図6.1 「Dockerイメージとコンテナの関係</p>
+<p>Dockerを使えば、PostgreSQLデータベースなどのイメージをダウンロードし、開発環境で実行することができます。Dockerを使えば、複数のデータベースやアプリを立ち上げて、必要な時に必要なだけシャットダウンすることができる。まず、ターミナルで以下のコマンドを実行して、コンテナの在庫を確認する必要があります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>docker<span class="w"> </span>container<span class="w"> </span>ls<span class="w"> </span>-a
+</code></pre></div>
+<p>Dockerがフレッシュインストールであれば、次のような出力が得られます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>CONTAINER ID  IMAGE  COMMAND  CREATED  STATUS  PORTS  NAMES
+</code></pre></div>
+<p>見ての通り、容器がない。また、イメージの在庫を確認する必要があります。これは、以下のターミナルコマンドを実行することで行うことができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span>docker<span class="w"> </span>image<span class="w"> </span>ls
+</code></pre></div>
+<p>先のコマンドでは、次のような出力が得られます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>REPOSITORY  TAG  IMAGE ID  CREATED  SIZE
+</code></pre></div>
+<p>繰り返しになりますが、Dockerが新規インストールであれば、コンテナは存在しません。</p>
+<p>Dockerでデータベースを作成する方法は、他にもあります。例えば、OSや構成を定義した独自のDockerfileを作成することができます。しかし、ここではdocker-composeをインストールしています。docker-composeを使うことで、データベースの定義が簡単になります。また、コンテナやサービスを追加することも可能になります。PostgreSQLデータベースを定義するために、ルートディレクトリにあるdocker-compose.ymlファイルに、以下のYAMLコードを記述します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.7&quot;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nt">services</span><span class="p">:</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="err">  </span><span class="nt">postgres</span><span class="p">:</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="err">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;to-do-postgres&#39;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="err">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;postgres:11.2&#39;</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="err">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="err">    </span><span class="nt">ports</span><span class="p">:</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="err">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;5432:5432&#39;</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="err">    </span><span class="nt">environment</span><span class="p">:</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="err">      - </span><span class="s">&#39;POSTGRES_USER=username&#39;</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="err">      - </span><span class="s">&#39;POSTGRES_DB=to_do&#39;</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="err">      - </span><span class="s">&#39;POSTGRES_PASSWORD=password&#39;</span>
+</code></pre></div>
+<p>先のコードでは、ファイルの先頭で、バージョンを定義しています。2や1などの古いバージョンでは、ファイルのレイアウトが異なるスタイルになっています。また、バージョンによってサポートする引数も異なります。本書を執筆している時点では、バージョン3が最新版となります。各docker-composeのバージョン間の変更点は、以下のURLで網羅されています: https://docs.docker.com/compose/compose-file/compose-versioning/.</p>
+<p>次に、postgresタグの下にネストされたデータベースサービスを定義します。postgresやservicesなどのタグは辞書を表し、リストは各要素に-を付けて定義します。このdocker-composeファイルをJSONに変換すると、次のような構造になります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="err">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;3.7&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="err">  </span><span class="nt">&quot;services&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="err">    </span><span class="nt">&quot;postgres&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="err">      </span><span class="nt">&quot;container_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;to-do-postgres&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="err">      </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;postgres:11.2&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="err">      </span><span class="nt">&quot;restart&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="err">      </span><span class="nt">&quot;ports&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="err">        </span><span class="s2">&quot;5432:5432&quot;</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="err">      </span><span class="p">],</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="err">      </span><span class="nt">&quot;environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="err">        </span><span class="s2">&quot;POSTGRES_USER=username&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="err">        </span><span class="s2">&quot;POSTGRES_DB=to_do&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="err">        </span><span class="s2">&quot;POSTGRES_PASSWORD=password&quot;</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="err">      </span><span class="p">]</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="err">    </span><span class="p">}</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="err">  </span><span class="p">}</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="p">}</span>
+</code></pre></div>
+<p>先のコードでは、サービスが各サービスを表す辞書であることがわかります。したがって、同じ辞書のキーを2つ持つことができないように、同じ名前のタグを2つ持つことはできないと推論できる。また、先のコードは、独自のパラメータを持つサービスタグを積み重ね続けることができることも教えてくれる。</p>
+<h3 id="docker_2">Dockerでデータベースを実行する</h3>
+<p>データベースサービスでは、名前があるので、コンテナを見たときに、サーバーやデータベースといったサービスに関連して、各コンテナが何をしているのかがわかります。データベースの設定と構築に関しては、幸運にも公式のpostgresイメージを引っ張り出すことができました。このイメージにはすべてが設定されており、Dockerはそれをリポジトリから引っ張ってきます。イメージは青写真のようなものです。このイメージは設計図のようなもので、Dockerはこのイメージから独自のパラメータを持つ複数のコンテナをスピンアップさせることができます。そして、いつも通り再起動ポリシーを定義します。つまり、コンテナの再起動ポリシーは、コンテナが終了したときに発動することになります。また、障害や停止に基づく再起動のみを定義することも可能です。</p>
+<p>Dockerコンテナには、マシンに対して開放されていない独自のポートがあることに注意する必要があります。しかし、コンテナポートを公開し、公開されたポートをDockerコンテナ内の内部ポートにマッピングすることは可能です。これらの機能を考慮し、ポートを定義することができます。</p>
+<p>しかし、この例では、定義をシンプルにします。ポート5432のDockerコンテナへの着信トラフィックを受け入れ、内部ポート5432にルーティングすることを明記することにします。次に、環境変数として、ユーザー名、データベース名、およびパスワードを定義します。本書では、一般的で覚えやすいパスワードとユーザ名を使用していますが、本番環境に移行する場合は、より安全なパスワードとユーザ名に変更することをお勧めします。docker-compose ファイルがあるルートディレクトリに移動して、以下のコマンドを実行することで、システムのスピンアップを構築することができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$<span class="w"> </span>docker-compose<span class="w"> </span>up
+</code></pre></div>
+<p>このコマンドは、リポジトリからpostgresイメージを取り込み、データベースの構築を開始します。ログメッセージが次々と表示された後、ターミナルには次のような出力が表示されるはずです。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>LOG:  listening on IPv4 address &quot;0.0.0.0&quot;, port 5432
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>LOG:  listening on IPv6 address &quot;::&quot;, port 5432
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>LOG:  listening on Unix socket &quot;/var/run/postgresql/.s.PGSQL.5432&quot;
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>LOG:  database system was shut down at 2022-04-23 17:36:45 UTC
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>LOG:  database system is ready to accept connections
+</code></pre></div>
+<p>ご覧のように、日付と時間は異なります。しかし、ここで言われているのは、データベースが接続を受け入れる準備ができたということです。そう、本当に簡単なことなのです。したがって、Dockerの採用は止められないのです。Ctrl + Cをクリックすると、docker-composeが停止し、postgresコンテナがシャットダウンされます。</p>
+<p>ここで、以下のコマンドですべてのコンテナをリストアップしてみます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>$<span class="w"> </span>docker<span class="w"> </span>container<span class="w"> </span>ls<span class="w"> </span>-a
+</code></pre></div>
+<p>先のコマンドでは、次のような出力が得られます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>CONTAINER<span class="w"> </span>ID<span class="w">        </span>IMAGE<span class="w">               </span>COMMAND<span class="w">                  </span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>c99f3528690f<span class="w">        </span>postgres:11.2<span class="w">       </span><span class="s2">&quot;docker-entrypoint.s…&quot;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>CREATED<span class="w">             </span>STATUS<span class="w">                          </span>PORTS
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="m">4</span><span class="w"> </span>hours<span class="w"> </span>ago<span class="w">         </span>Exited<span class="w"> </span><span class="o">(</span><span class="m">0</span><span class="o">)</span><span class="w"> </span>About<span class="w"> </span>a<span class="w"> </span>minute<span class="w"> </span>ago<span class="w">        </span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>NAMES
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>to-do-postgres
+</code></pre></div>
+<p>先の出力では、すべてのパラメータが存在することがわかります。しかし、サービスを停止したため、ポートが空になっています。</p>
+<h3 id="docker_3">Dockerでルーティングとポートを探索する</h3>
+<p>もし私たちが再びサービスを開始し、別のターミナルでコンテナをリストアップするとしたら、ポート5432はPORTSタグの下にあるはずです。DockerコンテナへのCONTAINER IDの参照は、コンテナごとにユニークで異なる/ランダムであるため、メモしておく必要があります。ログにアクセスする際には、これらを参照する必要があります。docker-compose upを実行すると、基本的に以下のような構成になります。</p>
+<p>図6.2 - docker-composeがデータベースを提供する様子</p>
+<p>図6.2では、docker-composeが一意のプロジェクト名を使用して、コンテナとネットワークをネームスペースに保持していることがわかります。注意しなければならないのは、私たちのコンテナはlocalhost上で動作していることです。したがって、docker-composeが管理するコンテナに電話をかける場合は、localhostリクエストを行う必要があります。ただし、docker-composeから開放されているポートに呼び出す必要があり、docker-composeはdocker-compose.ymlファイルに定義されているポートにルーティングします。例えば、以下のようなymlファイルで2つのデータベースがあるとします。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.7&quot;</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nt">services</span><span class="p">:</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="err">  </span><span class="nt">postgres</span><span class="p">:</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="err">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;to-do-postgres&#39;</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="err">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;postgres:11.2&#39;</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="err">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="err">    </span><span class="nt">ports</span><span class="p">:</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="err">      - </span><span class="s">&#39;5432:5432&#39;</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="err">    </span><span class="nt">environment</span><span class="p">:</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="err">      - </span><span class="s">&#39;POSTGRES_USER=username&#39;</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="err">      - </span><span class="s">&#39;POSTGRES_DB=to_do&#39;</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="err">      - </span><span class="s">&#39;POSTGRES_PASSWORD=password&#39;</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="err">  </span><span class="nt">postgres_two</span><span class="p">:</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="err">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;to-do-postgres_two&#39;</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="err">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;postgres:11.2&#39;</span>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="err">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="err">    </span><span class="nt">ports</span><span class="p">:</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="err">      - </span><span class="s">&#39;5433:5432&#39;</span>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="err">    </span><span class="nt">environment</span><span class="p">:</span>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="err">      - </span><span class="s">&#39;POSTGRES_USER=username&#39;</span>
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="err">      - </span><span class="s">&#39;POSTGRES_DB=to_do&#39;</span>
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="err">      - </span><span class="s">&#39;POSTGRES_PASSWORD=password&#39;</span>
+</code></pre></div>
+<p>先のコードでは、両方のデータベースがポート5432を通じてコンテナへのトラフィックを受け入れていることがわかります。しかし、衝突してしまうので、一緒に開くポートの1つはポート5433で、これは2番目のデータベースコンテナのポート5432にルーティングされ、以下のレイアウトになります。</p>
+<p>図6.3 - docker-compose が複数のデータベースを提供する様子</p>
+<p>このルーティングにより、複数のコンテナを実行する際の柔軟性を確保することができます。ToDoアプリケーションで複数のデータベースを実行するつもりはないので、postgres_twoサービスを削除する必要があります。postgres_twoサービスを削除したら、再びdocker-composeを実行し、以下のコマンドでコンテナをリストアップします。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>$<span class="w"> </span>docker<span class="w"> </span>image<span class="w"> </span>ls
+</code></pre></div>
+<p>先のコマンドで、次のような出力が得られるようになりました。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>REPOSITORY<span class="w">          </span>TAG<span class="w">                 </span>IMAGE<span class="w"> </span>ID<span class="w">    </span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>postgres<span class="w">            </span><span class="m">11</span>.2<span class="w">                </span>3eda284d1840
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>CREATED<span class="w">             </span>SIZE
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="m">17</span><span class="w"> </span>months<span class="w"> </span>ago<span class="w">       </span>312MB
+</code></pre></div>
+<p>先の出力では、イメージがpostgresのリポジトリから引き出されたことがわかります。また、イメージのユニークでランダムなIDと、イメージが作成された日付があります。</p>
+<p>これでデータベースの立ち上げ方の基本がわかったので、次のコマンドでdocker-composeをバックグラウンドで実行することができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>$<span class="w"> </span>docker-compose<span class="w"> </span>up<span class="w"> </span>-d
+</code></pre></div>
+<p>先のコマンドでは、どのコンテナがスピンアップされたかを以下の出力で伝えるだけです。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>Starting<span class="w"> </span>to-do-postgres<span class="w"> </span>...<span class="w"> </span><span class="k">done</span>
+</code></pre></div>
+<p>コンテナをリストアップすると、以下のような出力でステータスを確認することができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>STATUS              PORTS                    NAMES
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>Up About a minute   0.0.0.0:5432-&gt;5432/tcp   to-do-postgres
+</code></pre></div>
+<p>先ほどの出力では、他のタグも同じですが、STATUSタグからコンテナの稼働時間や、どのポートを占有しているのかがわかりますね。docker-composeはバックグラウンドで動作していますが、何が起こっているのかがわからないわけではありません。logsコマンドを呼び出し、以下のコマンドでコンテナのIDを参照することで、いつでもコンテナのログにアクセスすることができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>$<span class="w"> </span>docker<span class="w"> </span>logs<span class="w"> </span>c99f3528690f
+</code></pre></div>
+<p>先のコマンドは、標準的なdocker-composeのupコマンドと同じ出力になるはずです。docker-composeを停止するには、次のようにstopコマンドを実行します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>$<span class="w"> </span>docker-compose<span class="w"> </span>stop
+</code></pre></div>
+<p>先のコマンドは、docker-composeのコンテナを停止させるものです。これは、次のように示されるdownコマンドとは異なることに注意する必要があります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>$<span class="w"> </span>docker-compose<span class="w"> </span>down
+</code></pre></div>
+<p>downコマンドは、私たちのコンテナも停止させます。しかし、downコマンドはコンテナを削除してしまいます。私たちのデータベースコンテナが削除された場合、私たちはすべてのデータも失うことになります。</p>
+<p>ボリュームという設定パラメータがあり、コンテナが削除されたときに我々のデータが削除されるのを防ぐことができます。しかし、これは我々のコンピュータでのローカル開発には不可欠なものではありません。実際、ラップトップからコンテナやイメージを定期的に削除したくなるはずです。私は以前、ノートパソコンから使わなくなったコンテナやイメージを削除したところ、23GBが解放されました。</p>
+<p>私たちのローカル開発マシン上のDockerコンテナは、一時的なものとして扱われるべきです。Dockerコンテナは標準的な仮想マシンよりも軽量ですが、無料ではありません。ローカルマシン上でDockerを実行するアイデアは、アプリケーションの実行がサーバ上でどのようになるかをシミュレートすることができるというものです。特にKubernetesのようなDockerオーケストレーションツールで管理されている場合、ノートPC上でDockerが動作すれば、サーバー上でも動作することが確実となります。</p>
+<h3 id="bashdocker">BashスクリプトでDockerをバックグラウンドで実行する</h3>
+<p>Dockerは、一貫したテストや開発にも役立ちます。私たちは、テストを実行するたびに同じ結果を得られるようにしたいと思うでしょう。また、他の開発者を簡単に取り込み、開発をサポートするコンテナのティアダウンやスピンアップを迅速かつ簡単に行えるようにしたいと思います。私は個人的に、簡単なティアダウンとスピンアップの手順をサポートしていない場合、開発が遅れるのを見たことがあります。例えば、複雑なアプリケーションに取り組んでいるとき、追加してテストしているコードが、データベースに傷をつけるかもしれません。元に戻すことはできないかもしれませんし、データベースを削除してもう一度始めるのは、このデータを再構築するのに長い時間がかかるため、苦痛です。開発者は、最初にどのようにデータを構築したかさえ覚えていないかもしれません。このような事態を防ぐ方法は複数あり、第9章「アプリケーションのエンドポイントとコンポーネントをテストする」で説明します。</p>
+<p>とりあえず、バックグラウンドでデータベースを起動し、データベースへの接続が可能になるまで待機し、データベースを破棄するスクリプトを作成します。これにより、開発を開始するためのパイプライン、テスト、オンボーディングパッケージを構築するための基盤ができます。そのために、Rust Webアプリケーションのルートディレクトリにscriptsというディレクトリを作成します。そして、scripts/wait_for_database.sh ファイルに以下のコードを格納します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="ch">#!/bin/bash</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="nb">cd</span><span class="w"> </span>..
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>docker-compose<span class="w"> </span>up<span class="w"> </span>-d
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="k">until</span><span class="w"> </span>pg_isready<span class="w"> </span>-h<span class="w"> </span>localhost<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>username
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="k">do</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Waiting for postgres&quot;</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="w">  </span>sleep<span class="w"> </span><span class="m">2</span><span class="p">;</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="k">done</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;docker is now running&quot;</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>docker-compose<span class="w"> </span>down
+</code></pre></div>
+<p>先ほどのコードで、スクリプトの現在の作業ディレクトリをscriptsディレクトリからルートディレクトリに移動しています。そして、バックグラウンドでdocker-composeを起動します。次に、pq_isreadyコマンドを使用してポート5432にpingを打ち、データベースが接続を受け入れる準備が整うまでループします。</p>
+<p>重要なお知らせ</p>
+<p>pg_isready Bashコマンドは、お使いのコンピュータで利用できないかもしれません。pg_isreadyコマンドは通常、PostgreSQLクライアントのインストールに付属しています。また、pg_isreadyの代わりに、以下のDockerコマンドを使用することもできます。</p>
+<p>docker run -it postgres --add-host host.docker.internal:host-gateway docker.io/postgres:14-alpine -h localhost -U username pg_isready まで。</p>
+<p>ここでは、postgres Dockerイメージを使ってデータベースチェックを実行し、データベースが接続を受け入れる準備が整っていることを確認しているのです。</p>
+<p>データベースが稼働したら、コンソールにデータベースが稼働していることを出力し、docker-composeをテアダウンしてデータベースコンテナを破棄します。wait_for_database.sh Bashスクリプトを実行するコマンドを実行すると、次のように出力されます。</p>
+<p><code>bash
+❯ sh wait_for_database.sh 
+[+] Running 0/0
+ ⠋ Network web_app_default  Creating        0.2s
+ ⠿ Container to-do-postgres      Started    1.5s
+localhost:5432 - no response
+Waiting for postgres
+localhost:5432 - no response
+Waiting for postgres
+localhost:5432 - accepting connections
+docker is now running
+[+] Running 1/1
+ ⠿ Container to-do-postgres  Removed        1.2s
+ ⠿ Network web_app_default   Removed</code></p>
+<p>この出力から、ループの繰り返しごとに2秒間スリープするように指示していることを考えると、新しく起動したデータベースが接続を受け付けるまでにおよそ4秒かかったと推測できます。これで、Dockerでローカルデータベースを管理するための基本的な能力は身についたと言えるでしょう。    </p>
+<p>このセクションでは、私たちの環境をセットアップしました。また、Dockerの基本を十分に理解し、いくつかの簡単なコマンドだけでデータベースを構築、監視、シャットダウン、削除することができました。さて、次のセクションに進み、Rustとdiesel crateを使ってデータベースと対話することができます。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.ce72ebac.min.js"></script>
+      
+    
+  </body>
+</html>
