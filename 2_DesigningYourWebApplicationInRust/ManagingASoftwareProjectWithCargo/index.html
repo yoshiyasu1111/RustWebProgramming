@@ -42,6 +42,8 @@
       
     
     
+      <link rel="stylesheet" href="../../css/extra.css">
+    
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
@@ -1299,6 +1301,181 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          8章 - RESTfulサービスの構築
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          8章 - RESTfulサービスの構築
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../8_BuildingRESTfulServices/" class="md-nav__link">
+        8.1 - RESTfulサービスの構築
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../8_BuildingRESTfulServices/TechnicalRequirements/" class="md-nav__link">
+        8.2 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../8_BuildingRESTfulServices/WhatAreRESTfulServices/" class="md-nav__link">
+        8.3 - RESTfulサービスとは何ですか？
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../8_BuildingRESTfulServices/MappingOurLayeredSystem/" class="md-nav__link">
+        8.4 - レイヤーシステムをマッピングする
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../8_BuildingRESTfulServices/BuildingAUniformInterface/" class="md-nav__link">
+        8.5 - 統一されたインターフェースの構築
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../8_BuildingRESTfulServices/ImplementingStatelessness/" class="md-nav__link">
+        8.6 - ステートレス化の実施
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../8_BuildingRESTfulServices/LoggingOurServerTraffic/" class="md-nav__link">
+        8.7 - 当社サーバーのトラフィックを記録する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../8_BuildingRESTfulServices/Caching/" class="md-nav__link">
+        8.8 - キャッシング
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../8_BuildingRESTfulServices/CodeOnDemand/" class="md-nav__link">
+        8.9 - コードオンデマンド
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../8_BuildingRESTfulServices/Summary/" class="md-nav__link">
+        8.10 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -1382,24 +1559,26 @@
   <h1>2.2 - Cargoによるソフトウェアプロジェクトの管理</h1>
 
 <h2 id="cargo">Cargoによるソフトウェアプロジェクトの管理</h2>
-<p>Cargoを使ってプログラムの構造化を始める前に、基本的な単一ファイルのアプリケーションを構築する必要があります。そのためには、まずローカルディレクトリにhello_world.rsというファイルを作成する必要があります。拡張子.rsは、そのファイルがRustファイルであることを表しています。正直なところ、拡張子が何であるかは重要ではありません。そのファイルに実行可能なRustコードが書かれていれば、コンパイラは何の問題もなくコンパイルして実行します。しかし、拡張子が異なると、他の開発者やコード編集者を混乱させたり、他のRustファイルからコードをインポートする際に問題が発生する可能性があります。そのため、Rustファイルの命名には.rsを使用するのがベストです。hello_world.rsファイルの内部には、次のようなコードがあります。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;hello world&quot;</span><span class="p">);</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">}</span>
-</code></pre></div>
+<p>Cargoを使ってプログラムの構造化を始める前に、基本的な単一ファイルのアプリケーションを構築する必要があります。そのためには、まずローカルディレクトリに<code>hello_world.rs</code>というファイルを作成する必要があります。拡張子.rsは、そのファイルがRustファイルであることを表しています。正直なところ、拡張子が何であるかは重要ではありません。そのファイルに実行可能なRustコードが書かれていれば、コンパイラは何の問題もなくコンパイルして実行します。しかし、拡張子が異なると、他の開発者やコード編集者を混乱させたり、他のRustファイルからコードをインポートする際に問題が発生する可能性があります。そのため、Rustファイルの命名には.rsを使用するのがベストです。<code>hello_world.rs</code>ファイルの内部には、次のようなコードがあります。</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">hello_world.rs</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;hello world&quot;</span><span class="p">);</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
 <p>これは、前章の最初のコードブロックと何ら変わりはありません。さて、hello_world.rsファイルにエントリポイントを定義したので、次のコマンドでファイルをコンパイルすることができます。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>rustc<span class="w"> </span>hello_world.rs
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>rustc<span class="w"> </span>hello_world.rs
 </code></pre></div>
 <p>コンパイルが終了すると、同じディレクトリに実行可能なバイナリファイルが作成されます。Windows上でコンパイルした場合、以下のコマンドでバイナリを実行することができます。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>.<span class="se">\h</span>ello_world.exe
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>.\hello_world.exe
 </code></pre></div>
 <p>LinuxやmacOSでコンパイルした場合、以下のコマンドで実行できます。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>./hello_world
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>./hello_world
 </code></pre></div>
 <p>単純なhello worldの例しか作っていないので、hello worldはただプリントアウトされるだけです。この方法は、1つのファイルで簡単なアプリケーションを構築する場合には便利ですが、複数のファイルにまたがるプログラムを管理する場合には推奨されません。サードパーティのモジュールに依存する場合にもお勧めできません。そこで、Cargoの出番です。Cargoは、実行、テスト、ドキュメント作成、ビルド/コンパイル、サードパーティ製モジュールの依存関係など、すべてをいくつかの簡単なコマンドですぐに管理します。この章では、これらのコマンドについて説明します。hello worldの例を実行したときに見たところ、コードを実行する前にコンパイルする必要があります。そこで、次のセクションに進み、Cargoを使用して基本的なアプリケーションを構築してみましょう。</p>
 <h3 id="cargo_1">Cargoを使ったビルド</h3>
 <p>Cargoを使ったビルドは簡単です。プロジェクトをビルドしたいディレクトリに移動して、以下のコマンドを実行するだけです。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>cargo<span class="w"> </span>new<span class="w"> </span>web_app
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>cargo<span class="w"> </span>new<span class="w"> </span>web_app
 </code></pre></div>
 <p>先のコマンドで、基本的なCargo Rustプロジェクトが構築されます。このアプリケーションを探索すると、次のような構造になっていることがわかります。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>└── web_app
@@ -1407,8 +1586,8 @@
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    └── src
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>         └── main.rs
 </code></pre></div>
-<p>Rustファイルは1つだけで、これはsrcディレクトリに収められているmain.rsファイルであることがわかります。main.rsファイルを開くと、これは前節で作ったファイルと同じであることがわかります。これは、デフォルトのコードがコンソールにhello worldをプリントアウトするエントリーポイントです。プロジェクトの依存関係やメタデータは、Cargo.tomlファイルに定義されています。プログラムを実行したい場合は、main.rsファイルに移動してrustcを実行する必要はありません。 代わりに、Cargoを使用して、以下のコマンドで実行することができます。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>cargo<span class="w"> </span>run
+<p>Rustファイルは1つだけで、これはsrcディレクトリに収められている<code>main.rs</code>ファイルであることがわかります。<code>main.rs</code>ファイルを開くと、これは前節で作ったファイルと同じであることがわかります。これは、デフォルトのコードがコンソールにhello worldをプリントアウトするエントリーポイントです。プロジェクトの依存関係やメタデータは、<code>Cargo.toml</code>ファイルに定義されています。プログラムを実行したい場合は、<code>main.rs</code>ファイルに移動してrustcを実行する必要はありません。 代わりに、Cargoを使用して、以下のコマンドで実行することができます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$<span class="w"> </span>cargo<span class="w"> </span>run
 </code></pre></div>
 <p>このようにすると、プロジェクトがコンパイルされて実行され、次のようなプリントアウトが表示されます。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>  Compiling web_app v0.1.0 (/Users/maxwellflitton/Documents/
@@ -1417,18 +1596,18 @@
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>     Running `target/debug/web_app`
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>hello world
 </code></pre></div>
-<p>ベースディレクトリが違うので、プリントアウトは少し違うでしょう。一番下にhello worldと表示されますが、これは私たちが期待するものです。また、プリントアウトには、コンパイルが最適化されていないこと、target/debug/web_appで実行されていることが記載されていることが確認できます。バイナリが保存されている場所なので、前のセクションで行ったのと同じように、target/debug/web_appバイナリに直接移動して実行することができます。targetディレクトリには、プログラムをコンパイルしたり、実行したり、ドキュメントを作成したりするためのファイルが格納されています。GitHubのリポジトリにコードを添付する場合は、.gitignoreファイルにターゲット・ディレクトリを記述して、GitHubに無視されるようにする必要があります。今、私たちは最適化されていないバージョンを実行しています。つまり、処理速度は遅いですが、コンパイルは速いです。これは、開発中に何度もコンパイルすることになるため、理にかなっています。しかし、最適化されたバージョンを実行したい場合は、次のコマンドを使用します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>cargo<span class="w"> </span>run<span class="w"> </span>--release
+<p>ベースディレクトリが違うので、プリントアウトは少し違うでしょう。一番下にhello worldと表示されますが、これは私たちが期待するものです。また、プリントアウトには、コンパイルが最適化されていないこと、<code>target/debug/web_app</code>で実行されていることが記載されていることが確認できます。バイナリが保存されている場所なので、前のセクションで行ったのと同じように、<code>target/debug/web_app</code>バイナリに直接移動して実行することができます。targetディレクトリには、プログラムをコンパイルしたり、実行したり、ドキュメントを作成したりするためのファイルが格納されています。GitHubのリポジトリにコードを添付する場合は、<code>.gitignore</code>ファイルにターゲット・ディレクトリを記述して、GitHubに無視されるようにする必要があります。今、私たちは最適化されていないバージョンを実行しています。つまり、処理速度は遅いですが、コンパイルは速いです。これは、開発中に何度もコンパイルすることになるため、理にかなっています。しかし、最適化されたバージョンを実行したい場合は、次のコマンドを使用します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>$<span class="w"> </span>cargo<span class="w"> </span>run<span class="w"> </span>--release
 </code></pre></div>
 <p>先のコマンドで、次のようなプリントアウトが得られました。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="w">    </span>Finished<span class="w"> </span>release<span class="w"> </span><span class="o">[</span>optimized<span class="o">]</span><span class="w"> </span>target<span class="o">(</span>s<span class="o">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">2</span>.63s
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">     </span>Running<span class="w"> </span><span class="sb">`</span>target/release/web_app<span class="sb">`</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>hello<span class="w"> </span>world
 </code></pre></div>
-<p>先の出力では、最適化されたバイナリがtarget/release/web_appのパスにあることがわかります。これで基本的なビルドは完了したので、次はCargoを使ってサードパーティのクレートを利用することができます。</p>
+<p>先の出力では、最適化されたバイナリが<code>target/release/web_app</code>のパスにあることがわかります。これで基本的なビルドは完了したので、次はCargoを使ってサードパーティのクレートを利用することができます。</p>
 <h3 id="cargo_2">Cargoでクレートを出荷する</h3>
-<p>サードパーティライブラリはクレートと呼ばれます。Cargoでこれらを追加し、管理するのは簡単です。このセクションでは、https://rust-random.github.io/rand/rand/index.html にある rand crate を利用して、このプロセスを探ります。このクレートのドキュメントは、構造体、trait、およびモジュールへのリンクが明確でよく構成されていることに留意する必要があります。これは、randクレートそのものを反映しているわけではありません。これは、次のセクションで取り上げるRustの標準的なドキュメントです。このクレートをプロジェクトで使用するために、Cargo.tomlファイルを開き、以下のように[dependencies]セクションの下にrand crateを追加しています。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">[dependencies]</span>
+<p>サードパーティライブラリはクレートと呼ばれます。Cargoでこれらを追加し、管理するのは簡単です。このセクションでは、<a href="https://rust-random.github.io/rand/rand/index.html">https://rust-random.github.io/rand/rand/index.html</a> にある rand crate を利用して、このプロセスを探ります。このクレートのドキュメントは、構造体、trait、およびモジュールへのリンクが明確でよく構成されていることに留意する必要があります。これは、randクレートそのものを反映しているわけではありません。これは、次のセクションで取り上げるRustの標準的なドキュメントです。このクレートをプロジェクトで使用するために、<code>Cargo.toml</code>ファイルを開き、以下のように[dependencies]セクションの下にrand crateを追加しています。</p>
+<div class="highlight"><span class="filename">Cargo.toml</span><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">[dependencies]</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">rand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0.7.3&quot;</span>
 </code></pre></div>
 <p>依存関係の定義ができたので、rand crateを使って乱数生成器を作ってみましょう。</p>

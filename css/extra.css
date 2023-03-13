@@ -1,0 +1,13 @@
+.md-typeset h2:before {
+  font-family: "FontAwesome";
+  font-weight: 900;
+  content: "\f0a9";
+  margin-right: 5px;
+}
+
+.md-typeset h3:before {
+  font-family: "FontAwesome";
+  font-weight: 700;
+  content: "\f0a9";
+  margin-right: 5px;
+}

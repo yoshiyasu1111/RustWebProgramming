@@ -1,0 +1,1600 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../WhatAreRESTfulServices/">
+      
+      
+        <link rel="next" href="../BuildingAUniformInterface/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.0">
+    
+    
+      
+        <title>8.4 - レイヤーシステムをマッピングする - Rust Web Programming</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.402914a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+Japanese:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans Japanese";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Rust Web Programming" class="md-header__button md-logo" aria-label="Rust Web Programming" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Rust Web Programming
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              8.4 - レイヤーシステムをマッピングする
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Rust Web Programming" class="md-nav__button md-logo" aria-label="Rust Web Programming" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Rust Web Programming
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        序文
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          1章 - Rust Web開発入門
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          1章 - Rust Web開発入門
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1_QuickIntroduction/" class="md-nav__link">
+        1 - Rust Web開発入門
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1_QuickIntroduction/TechnicalRequirements/" class="md-nav__link">
+        1.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1_QuickIntroduction/WhyIsRustRevolutionary/" class="md-nav__link">
+        1.2 - なぜRustは革命的なのか？
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          2章 - RustでWebアプリケーションをデザインする
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          2章 - RustでWebアプリケーションをデザインする
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/" class="md-nav__link">
+        2 - RustでWebアプリケーションをデザインする
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/TechnicalRequirements/" class="md-nav__link">
+        2.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/ManagingASoftwareProjectWithCargo/" class="md-nav__link">
+        2.2 - Cargoによるソフトウェアプロジェクトの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/StructuringCode/" class="md-nav__link">
+        2.3 - コードの構造化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/InteractingWithTheEnvironment/" class="md-nav__link">
+        2.4 - 環境との相互作用
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_DesigningYourWebApplicationInRust/Summary/" class="md-nav__link">
+        2.5 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          3章 - HTTPリクエストの取り扱い
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          3章 - HTTPリクエストの取り扱い
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/" class="md-nav__link">
+        3 - HTTPリクエストの取り扱い
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/TechnicalRequirements/" class="md-nav__link">
+        3.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/IntroducingTheActixWebFramework/" class="md-nav__link">
+        3.2 - Actix Webフレームワークの紹介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/LaunchingABasicActixWebServer/" class="md-nav__link">
+        3.3 - 基本的なActix Webサーバーの立ち上げ
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/UnderstandingClosures/" class="md-nav__link">
+        3.4 - クロージャを理解する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/UnderstandingAsynchronousProgramming/" class="md-nav__link">
+        3.5 - 非同期プログラミングの理解
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/UnderstandingAsyncAndAwait/" class="md-nav__link">
+        3.6 - asyncとawaitを理解する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/ExploringAsyncAndAwaitWithWebProgramming/" class="md-nav__link">
+        3.7 - Webプログラミングでasyncとawaitを探求する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/ManagingViewsUsingTheActixWebFramework/" class="md-nav__link">
+        3.8 - Actix Webフレームワークを使用したビューの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_HandlingHTTPRequests/Summary/" class="md-nav__link">
+        3.9 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          4章 - HTTPリクエストの処理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          4章 - HTTPリクエストの処理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/" class="md-nav__link">
+        4 - HTTPリクエストの処理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/TechnicalRequirements/" class="md-nav__link">
+        4.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/GettingToKnowTheInitialSetupForFusingCode/" class="md-nav__link">
+        4.2 - コードを定着させるための初期設定について知る
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/PassingParametersIntoViews/" class="md-nav__link">
+        4.3 - ビューにパラメータを渡す
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/UsingMacrosForJSONSerialization/" class="md-nav__link">
+        4.4 - JSONシリアライズのためのマクロの使用
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/ExtractingDataFromViews/" class="md-nav__link">
+        4.5 - ビューからデータを抽出する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_ProcessingHTTPRequests/Summary/" class="md-nav__link">
+        4.6 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          5章 - ブラウザでコンテンツを表示する
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          5章 - ブラウザでコンテンツを表示する
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/" class="md-nav__link">
+        5 - ブラウザでコンテンツを表示する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/TechnicalRequirements/" class="md-nav__link">
+        5.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/ServingHTMLCSSAndJavaScriptUsingRust/" class="md-nav__link">
+        5.2 - Rustを使ったHTML、CSS、JavaScriptのサービス提供
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/InjectingJavaScriptIntoHTML/" class="md-nav__link">
+        5.3 - HTMLにJavaScriptを注入する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/InjectingCSSIntoHTML/" class="md-nav__link">
+        5.4 - HTMLにCSSを組み込む
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/InheritingComponents/" class="md-nav__link">
+        5.5 - コンポーネントの継承
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/CreatingAReactApp/" class="md-nav__link">
+        5.6 - Reactアプリを作成する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/MakingAPICallsInReact/" class="md-nav__link">
+        5.7 - ReactでAPIを呼び出す
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/CreatingCustomComponentsInReact/" class="md-nav__link">
+        5.8 - Reactのカスタムコンポーネントの作成
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/LiftingCSSIntoReact/" class="md-nav__link">
+        5.9 - CSSをReactに持ち込む
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/ConvertingOurReactApplicationIntoADesktopApplication/" class="md-nav__link">
+        5.10 - Reactアプリケーションをデスクトップアプリケーションへ変換する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_DisplayingContentInTheBrowser/Summary/" class="md-nav__link">
+        5.11 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          6章 - PostgreSQLによるデータ永続化
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          6章 - PostgreSQLによるデータ永続化
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/" class="md-nav__link">
+        6 - PostgreSQLによるデータ永続化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/TechnicalRequirements/" class="md-nav__link">
+        6.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/BuildingOurPostgreSQLDatabase/" class="md-nav__link">
+        6.2 - PostgreSQLデータベースの構築
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/ConnectingToPostgreSQLWithDiesel/" class="md-nav__link">
+        6.3 - DieselでPostgreSQLに接続する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/ConnectingOurAppToPostgreSQL/" class="md-nav__link">
+        6.4 - アプリをPostgreSQLに接続する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/InsertingIntoTheDatabase/" class="md-nav__link">
+        6.5 - データベースへの挿入
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/ConfiguringOurApplication/" class="md-nav__link">
+        6.6 - アプリケーションを構成する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/BuildingADatabaseConnectionPool/" class="md-nav__link">
+        6.7 - データベース接続プールの構築
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6_DataPersistenceWithPostgreSQL/Summary/" class="md-nav__link">
+        6.8 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          7章 - ユーザーセッションの管理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          7章 - ユーザーセッションの管理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/" class="md-nav__link">
+        7 - ユーザーセッションの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/TechnicalRequirements/" class="md-nav__link">
+        7.1 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/CreatingOurUserModel/" class="md-nav__link">
+        7.2 - ユーザーモデルを作成する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/AuthenticatingOurUsers/" class="md-nav__link">
+        7.3 - ユーザーを認証する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/ManagingUserSessions/" class="md-nav__link">
+        7.4 - ユーザーセッションの管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/CleaningUpAuthenticationRequirements/" class="md-nav__link">
+        7.5 - 認証要件のクリーンアップ
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/ConfiguringExpirationOfAuthTokens/" class="md-nav__link">
+        7.6 - 認証トークンの有効期限を設定する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/AddingAuthenticationIntoOurFrontend/" class="md-nav__link">
+        7.7 - フロントエンドに認証を追加する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7_ManagingUserSessions/Summary/" class="md-nav__link">
+        7.8 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          8章 - RESTfulサービスの構築
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          8章 - RESTfulサービスの構築
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        8.1 - RESTfulサービスの構築
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TechnicalRequirements/" class="md-nav__link">
+        8.2 - 技術要件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../WhatAreRESTfulServices/" class="md-nav__link">
+        8.3 - RESTfulサービスとは何ですか？
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          8.4 - レイヤーシステムをマッピングする
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        8.4 - レイヤーシステムをマッピングする
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    レイヤーシステムをマッピングする
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BuildingAUniformInterface/" class="md-nav__link">
+        8.5 - 統一されたインターフェースの構築
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ImplementingStatelessness/" class="md-nav__link">
+        8.6 - ステートレス化の実施
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LoggingOurServerTraffic/" class="md-nav__link">
+        8.7 - 当社サーバーのトラフィックを記録する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Caching/" class="md-nav__link">
+        8.8 - キャッシング
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CodeOnDemand/" class="md-nav__link">
+        8.9 - コードオンデマンド
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Summary/" class="md-nav__link">
+        8.10 - まとめ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    レイヤーシステムをマッピングする
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>8.4 - レイヤーシステムをマッピングする</h1>
+
+<h2 id="_1">レイヤーシステムをマッピングする</h2>
+<p>レイヤーシステムは、異なる機能単位を持つ層で構成されています。これらのレイヤーは異なるサーバーであると言えるかもしれません。これは、マイクロサービスや大きなシステムでも言えることです。これは、データの異なるレイヤーに関しても言えることです。ビッグシステムでは、定期的にアクセスされ更新されるホットデータと、ほとんどアクセスされないコールドデータがあることは理にかなっています。しかし、レイヤーは異なるサーバーにあると考えがちですが、同じサーバーにあることもあります。次のような図でレイヤーをマッピングすることができます。</p>
+<p>図8.1 - アプリのレイヤーについて</p>
+<p>ご覧のように、私たちのアプリはこの流れに沿っています。</p>
+<ol>
+<li>まず、HTTPハンドラーが、サーバー作成時に定義したポートをリッスンして、呼び出しを受け付けます。</li>
+<li>そして、アプリの wrap_fn 関数を使用して定義したミドルウェアを通過します。</li>
+<li>これが終わると、リクエストのURLは正しいビューにマップされ、src/json_serialization/ディレクトリで定義したスキーマにマップされます。これらは、src/viewsディレクトリに定義されているリソース（ビュー）に渡されます。</li>
+</ol>
+<p>その後、データベースからデータを更新したり取得したりしたい場合は、Diesel ORMを使ってこれらのリクエストをマッピングします。この段階で、ミドルウェアを除くすべてのレイヤーは、データの流れを効果的に管理するために定義されています。前章の第7章「ユーザーセッションの管理」で指摘したように、JwToken構造体を使った認証のためのミドルウェアをFromRequest traitで実装しています。このように、wrap_fnとFromRequest traitのどちらを使ってもミドルウェアを実装することができることがわかります。wrap_fnとFromRequest traitのどちらを使うべきか、どんな時に使うべきと思いますか？どちらもメリットとデメリットがあります。特定のビューに対してミドルウェアを実装したい場合は、FromRequest traitを実装するのがベストです。これは、FromRequest traitを実装した構造体を、必要なビューにスロットすることができるからです。認証は、FromRequest traitを実装するのに適したユースケースであり、認証を必要とするエンドポイントを選択することができるからです。しかし、包括的なルールを実装したい場合は、wrap_fn関数で認証のためのビューの選択を実装する方がよいでしょう。wrap_fn関数でミドルウェアを実装することは、すべてのリクエストに対して実装されることを意味します。</p>
+<p>例えば、すべてのエンドポイントについて、バージョン1のサポートを終了することが考えられます。この場合、サードパーティのユーザーに対して、APIのバージョン1のサポートを終了するという決定を警告する必要があります。期限が過ぎたら、バージョン1のサポートが終了したことを親切なメッセージで伝えなければならないでしょう。ミドルウェア層の作業を始める前に、main.rsファイルの先頭で次のインポートを定義する必要があります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">use</span><span class="w"> </span><span class="n">actix_web</span>::<span class="p">{</span><span class="n">App</span><span class="p">,</span><span class="w"> </span><span class="n">HttpServer</span><span class="p">,</span><span class="w"> </span><span class="n">HttpResponse</span><span class="p">};</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">use</span><span class="w"> </span><span class="n">actix_service</span>::<span class="n">Service</span><span class="p">;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">use</span><span class="w"> </span><span class="n">futures</span>::<span class="n">future</span>::<span class="p">{</span><span class="n">ok</span><span class="p">,</span><span class="w"> </span><span class="n">Either</span><span class="p">};</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">use</span><span class="w"> </span><span class="n">actix_cors</span>::<span class="n">Cors</span><span class="p">;</span>
+</code></pre></div>
+<p>受信したリクエストがv1エンドポイント向けであることを確認するために、リクエストを処理するか拒否するかを決定する際に、後でチェックできるフラグを定義する必要があります。これを実現するには、main.rs ファイルで次のコードを使用します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">.</span><span class="n">wrap_fn</span><span class="p">(</span><span class="o">|</span><span class="n">req</span><span class="p">,</span><span class="w"> </span><span class="n">srv</span><span class="o">|</span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">passed</span>: <span class="kt">bool</span><span class="p">;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">req</span><span class="p">.</span><span class="n">path</span><span class="p">().</span><span class="n">contains</span><span class="p">(</span><span class="s">&quot;/v1/&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">        </span><span class="n">passed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="n">passed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="w"> </span><span class="p">.</span>
+</code></pre></div>
+<p>先のコードから、passedという名前でBooleanがあることを宣言していることがわかります。v1がURLに存在しない場合、trueに設定されます。v1がURLに存在する場合、passedはfalseに設定されます。</p>
+<p>さて、フラグを定義したので、リクエストに何が起こるか指示するためにそれを使うことができます。これを行う前に、このコードブロックに示されているように、wrap_fnの最後の行に注意する必要があります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">future</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">srv</span><span class="p">.</span><span class="n">call</span><span class="p">(</span><span class="n">req</span><span class="p">);</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">async</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fut</span><span class="p">.</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nb">Ok</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">}</span>
+</code></pre></div>
+<p>呼び出しが終わるのを待ち、その結果をresultという変数で返しています。v1 APIのブロックが呼び出されたので、リクエストが通ったかどうか確認する必要があります。通過した場合は、先のコードを実行する。しかし、リクエストが失敗した場合は、これを回避して、レスポンスだけの別のフューチャーを定義しなければなりません。</p>
+<p>額面通りだと、これは簡単なことに思えるかもしれません。どちらも同じもの、つまりレスポンスを返します。しかし、Rustはコンパイルできません。互換性のない型に基づくエラーが投げられるのです。これは、非同期ブロックがクロージャのように動作するためです。つまり、すべての非同期ブロックはそれ自身の型であるということです。この微妙なディテールのために、開発者は2つのフューチャーを互いに連携させるために何時間も費やすことになり、イライラすることがあります。</p>
+<p>幸いなことに、futures crateには、この問題を解決してくれるenumがあります。Either列挙型は、同じ関連型を持つ2つの異なるフューチャー、ストリーム、シンクを1つの型に統合するものです。これにより、次のようなコードで、渡されたフラグにマッチし、適切なプロセスを起動し、返すことができる。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">end_result</span><span class="p">;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">passed</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">        </span><span class="n">end_result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Either</span>::<span class="n">Left</span><span class="p">(</span><span class="n">srv</span><span class="p">.</span><span class="n">call</span><span class="p">(</span><span class="n">req</span><span class="p">))</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">resp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpResponse</span>::<span class="n">NotImplemented</span><span class="p">().</span><span class="n">body</span><span class="p">(</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">            </span><span class="s">&quot;v1 API is no longer supported&quot;</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">            </span><span class="p">);</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">        </span><span class="n">end_result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Either</span>::<span class="n">Right</span><span class="p">(</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">            </span><span class="n">ok</span><span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">into_response</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">                  </span><span class="p">.</span><span class="n">map_into_boxed_body</span><span class="p">())</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">        </span><span class="p">)</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">move</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">end_result</span><span class="p">.</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">        </span><span class="nb">Ok</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="p">}).</span><span class="n">configure</span><span class="p">(</span><span class="n">views</span>::<span class="n">views_factory</span><span class="p">).</span><span class="n">wrap</span><span class="p">(</span><span class="n">cors</span><span class="p">);</span>
+</code></pre></div>
+<p>先のコードから、渡されたフラグに応じて、end_resultをビューとして呼び出すか、不正なレスポンスに直接返すように割り当てていることがわかります。そして、wrap_fnの最後でこれを返します。Either列挙型の使い方を知っていると、2つの異なる未来を選択する必要があるときに、時間を節約することができ、便利なトリックです。</p>
+<p>v1をブロックしているかどうかを確認するために、次の図のように単純なgetリクエストを呼び出すことができます。</p>
+<p>図8.2 「ブロック化されたv1への対応</p>
+<p>API呼び出しが親切なメッセージとともにブロックされていることがわかります。Postmanを通してAPIコールを行うと、次の図に見られるように、501 Not Implementedエラーが出ることがわかります。</p>
+<p>図8.3 「ブロックされたv1に対するポストマンの反応</p>
+<p>将来的にはアイテムを取得するためのリソースを増やしたいと思うかもしれません。これは、いくつかのビューがアプリのビューと衝突し始めるかもしれないので、潜在的な問題を提起します。例えば、ToDoアイテムのAPIビューはitemというプレフィックスを持つだけです。すべての項目を取得するには、v1/item/getエンドポイントが必要です。</p>
+<p>後でv1/item/get/{id}エンドポイントで編集するために、ToDo項目を詳細に見るビューをアプリ用に開発することは合理的かもしれません。しかし、これではフロントエンドのアプリのビューとバックエンドのAPI呼び出しが衝突する危険性が高まります。これを防ぐには、APIが統一されたインターフェイスを持つようにする必要がありそうです。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.ce72ebac.min.js"></script>
+      
+    
+  </body>
+</html>
