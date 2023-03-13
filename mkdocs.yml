@@ -73,6 +73,17 @@ nav:
     - '7.6 - 認証トークンの有効期限を設定する': 7_ManagingUserSessions/ConfiguringExpirationOfAuthTokens.md
     - '7.7 - フロントエンドに認証を追加する':   7_ManagingUserSessions/AddingAuthenticationIntoOurFrontend.md
     - '7.8 - まとめ':                           7_ManagingUserSessions/Summary.md
+  - '8章 - RESTfulサービスの構築':
+    - '8.1 - RESTfulサービスの構築':                8_BuildingRESTfulServices/index.md
+    - '8.2 - 技術要件':                             8_BuildingRESTfulServices/TechnicalRequirements.md
+    - '8.3 - RESTfulサービスとは何ですか？':        8_BuildingRESTfulServices/WhatAreRESTfulServices.md
+    - '8.4 - レイヤーシステムをマッピングする':     8_BuildingRESTfulServices/MappingOurLayeredSystem.md
+    - '8.5 - 統一されたインターフェースの構築':     8_BuildingRESTfulServices/BuildingAUniformInterface.md
+    - '8.6 - ステートレス化の実施':                 8_BuildingRESTfulServices/ImplementingStatelessness.md
+    - '8.7 - 当社サーバーのトラフィックを記録する': 8_BuildingRESTfulServices/LoggingOurServerTraffic.md
+    - '8.8 - キャッシング':                         8_BuildingRESTfulServices/Caching.md
+    - '8.9 - コードオンデマンド':                   8_BuildingRESTfulServices/CodeOnDemand.md
+    - '8.10 - まとめ':                              8_BuildingRESTfulServices/Summary.md
 
 markdown_extensions:
   - admonition
@@ -80,6 +91,9 @@ markdown_extensions:
   - codehilite
   - tables
   - md_in_html
+  - pymdownx.tasklist:
+      custom_checkbox: true
+      clickable_checkbox: true
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.superfences:
@@ -87,5 +101,7 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+
 extra_css:
-    - "https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"
+  - "css/extra.css"
+  - "https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"
